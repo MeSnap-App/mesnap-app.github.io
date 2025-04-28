@@ -43,11 +43,28 @@ model-viewer {
     --progress-mask: transparent;
     background-color: #E3F2FD;
     border-radius: var(--border-radius);
-    /* Model color variables will be set dynamically in JS */
-    --enviro-color: #FFEB3B; /* Default yellow */
+    
+    /* Default positioning variables */
+    --model-translate-y: 0m;
+    --model-translate-z: 0m;
 }
 
-/* Hide model-viewer until it's loaded fully */
+/* Apply model position transformation */
+model-viewer::part(default) {
+    transform: translateY(var(--model-translate-y)) translateZ(var(--model-translate-z));
+}
+
+/* Apply model scale more directly with !important */
+model-viewer {
+    --scale: 0.01;  /* Default scale that can be overridden */
+}
+
+/* Add scaler class for direct scaling */
+.model-scaler {
+    transform: scale(0.01) !important;
+}
+
+/* Show loading indicator until model is fully loaded */
 model-viewer:not(.loaded)::before {
     content: '';
     position: absolute;

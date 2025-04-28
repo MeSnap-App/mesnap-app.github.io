@@ -12,7 +12,8 @@
 <body>
     <header>
         <nav>
-            <div class="logo">MeSnap<span>.App</span></div>
+            <div class="logo" onclick="window.location.href='index.html'" style="cursor:pointer;">
+                MeSnap<span>.App</span></div>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="product.html" class="active">Shop</a></li>
@@ -33,15 +34,16 @@
             <div class="product-preview">
                 <div class="preview-container">
                     <div class="product-view-container">
-                        <!-- 3D preview using model-viewer -->
+                        <!-- 3D preview using model-viewer with simplified parameters -->
                         <model-viewer id="product-model-viewer" src="models/mesnap_yellow.glb"
                             alt="MeSnap ID Card Holder 3D Model" camera-controls disable-pan auto-rotate
-                            rotation-per-second="30deg" background-color="#E3F2FD" exposure="1.0" shadow-intensity="0.8"
-                            shadow-softness="1" camera-orbit="180deg 75deg 3.5m" min-camera-orbit="auto auto auto"
-                            max-camera-orbit="auto auto auto" field-of-view="40deg" min-field-of-view="15deg"
-                            max-field-of-view="60deg" interaction-prompt="none" orientation="0deg 180deg 0deg"
-                            scale="0.4 0.4 0.4" ar ar-modes="webxr scene-viewer quick-look" ar-scale="0.0001"
-                            ar-placement="floor">
+                            background-color="#E3F2FD" camera-orbit="180deg 75deg 4m" field-of-view="35deg"
+                            interaction-prompt="none" ar ar-modes="webxr scene-viewer quick-look" ar-scale="0.00005"
+                            ar-placement="floor" scale="0.01 0.01 0.01" interpolation-decay="200">
+                            <!-- Model-position parameters that can be easily tweaked -->
+                            <span id="model-params" data-scale="0.01" data-move-back="8" data-move-up="0.2"
+                                style="display:none;"></span>
+                            <!-- Loading progress bar -->
                             <div class="progress-bar hide" slot="progress-bar">
                                 <div class="update-bar"></div>
                             </div>
@@ -174,6 +176,53 @@
 
     <!-- Model Viewer library -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
+    <!-- Model positioning script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modelViewer = document.getElementById('product-model-viewer');
+            if (!modelViewer) return;
+
+            // Get position parameters from HTML
+            const paramsElement = document.getElementById('model-params');
+            if (!paramsElement) return;
+
+            // Read parameters
+            const scale = parseFloat(paramsElement.getAttribute('data-scale') || 0.01);
+            const moveBack = parseFloat(paramsElement.getAttribute('data-move-back') || 8);
+            const moveUp = parseFloat(paramsElement.getAttribute('data-move-up') || 0.2);
+
+            console.log(`Applying model params: scale=${scale}, moveBack=${moveBack}, moveUp=${moveUp}`);
+
+            // Function to apply position
+            const applyPosition = () => {
+                // Scale
+                modelViewer.scale = `${scale} ${scale} ${scale}`;
+                
+                // Position translation
+                modelViewer.style.setProperty('--model-translate-y', `${moveUp}m`);
+                modelViewer.style.setProperty('--model-translate-z', `${moveBack}m`);
+
+                // Set model position directly if possible
+                if (modelViewer.model) {
+                    try {
+                        modelViewer.model.position.y = moveUp;
+                        modelViewer.model.position.z = moveBack;
+                    } catch (e) {
+                        console.warn('Could not set model position directly');
+                    }
+                }
+
+                console.log(`Model params applied: scale=${scale}`);
+            };
+
+            // Apply immediately and after load
+            setTimeout(applyPosition, 100);
+            modelViewer.addEventListener('load', () => {
+                setTimeout(applyPosition, 50);
+            });
+        });
+    </script>
 
     <!-- Our scripts -->
     <script src="js/main.js"></script>
