@@ -1,0 +1,128 @@
+{
+  "products": [
+    {
+      "id": "mesnap-001",
+      "name": "MeSnap ID Card Holder",
+      "description": "The ultimate ID card solution for university students, combining style with cutting-edge technology.",
+      "price": 19.99,
+      "originalPrice": 24.99,
+      "discount": 20,
+      "discountLabel": "Limited Time Offer",
+      "currency": "GBP",
+      "colors": [
+        {
+          "name": "Green",
+          "hex": "#4CAF50",
+          "stock": 25,
+          "modelColor": "0x4CAF50"
+        },
+        {
+          "name": "Blue",
+          "hex": "#2196F3",
+          "stock": 30,
+          "modelColor": "0x2196F3"
+        },
+        {
+          "name": "Yellow",
+          "hex": "#FFEB3B",
+          "stock": 20,
+          "modelColor": "0xFFEB3B",
+          "default": true
+        },
+        {
+          "name": "Pastel Pink",
+          "hex": "#FFC0CB",
+          "stock": 15,
+          "modelColor": "0xFFC0CB"
+        },
+        {
+          "name": "White",
+          "hex": "#FFFFFF",
+          "stock": 35,
+          "modelColor": "0xFFFFFF"
+        },
+        {
+          "name": "Black",
+          "hex": "#000000",
+          "stock": 40,
+          "modelColor": "0x000000"
+        },
+        {
+          "name": "Red",
+          "hex": "#F44336",
+          "stock": 18,
+          "modelColor": "0xF44336"
+        }
+      ],
+      "features": [
+        "Built-in MagSafe magnets compatible with iPhone 12 and newer",
+        "Embedded NFC chip for easy contact sharing",
+        "Durable plastic construction that protects your ID card",
+        "Universal lanyard hole compatible with standard lanyards",
+        "Sleek, lightweight design (only 15g)",
+        "Water-resistant and easy to clean"
+      ],
+      "images": {
+        "solo": "images/product-solo.png",
+        "phone": "images/product-phone.png",
+        "lanyard": "images/product-lanyard.png"
+      },
+      "models": {
+        "mesnap": "models/mesnap.glb",
+        "phone": "models/iphone16.glb"
+      },
+      "modelPositioning": {
+        "mesnap": {
+          "scale": 1,
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        "phone": {
+          "scale": 1,
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": -0.1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        "colorMaterial": "body"
+      }
+    }
+  ],
+  "accessories": [
+    {
+      "id": "accessory-001",
+      "name": "Premium Lanyard",
+      "description": "High-quality lanyard with durable clip and adjustable length.",
+      "price": 9.99,
+      "currency": "GBP",
+      "image": "images/accessory-lanyard.png",
+      "stock": 50
+    },
+    {
+      "id": "accessory-002",
+      "name": "Student Bundle",
+      "description": "Complete package including MeSnap ID Card Holder, Premium Lanyard, and MagSafe Charger.",
+      "price": 39.99,
+      "originalPrice": 59.97,
+      "discount": 33,
+      "discountLabel": "Bundle Discount",
+      "currency": "GBP",
+      "image": "images/accessory-bundle.png",
+      "stock": 15
+    }
+  ]
+}

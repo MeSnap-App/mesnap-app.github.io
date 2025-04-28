@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - MeSnap.App</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/faq.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">MeSnap<span>.App</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="product.html">Shop</a></li>
+                <li><a href="faq.html" class="active">FAQ</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="cart.html" class="cart-icon">Cart <span id="cart-count">0</span></a></li>
+            </ul>
+            <div class="hamburger">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="faq-hero">
+            <h1>Frequently Asked Questions</h1>
+            <p>Find answers to common questions about MeSnap</p>
+        </section>
+        
+        <section class="faq-container">
+            <div class="faq-search">
+                <input type="text" id="faq-search" placeholder="Search questions...">
+                <button id="search-btn">Search</button>
+            </div>
+            
+            <div class="faq-categories">
+                <button class="category-btn active" data-category="all">All</button>
+                <button class="category-btn" data-category="product">Product</button>
+                <button class="category-btn" data-category="shipping">Shipping</button>
+                <button class="category-btn" data-category="payment">Payment</button>
+                <button class="category-btn" data-category="returns">Returns</button>
+            </div>
+            
+            <div class="faq-list">
+                <div class="faq-item" data-category="product">
+                    <div class="faq-question">
+                        <h3>What is MeSnap and how does it work?</h3>
+                        <div class="faq-icon">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>MeSnap is a plastic ID card holder with built-in MagSafe magnets and NFC technology. It allows you to securely attach your university ID card to your iPhone using MagSafe technology. The embedded NFC chip lets you share your contact information when someone taps their phone against it. MeSnap can also be used with a standard lanyard if you prefer.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item" data-category="product">
+                    <div class="faq-question">
+                        <h3>Which iPhone models is MeSnap compatible with?</h3>
+                        <div class="faq-icon">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>MeSnap is compatible with all MagSafe-enabled iPhones, which includes the iPhone 12 series and newer. The magnetic attachment is optimized for these models, providing a secure fit.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item" data-category="product">
+                    <div class="faq-question">
+                        <h3>How do I set up the NFC feature?</h3>
+                        <div class="faq-icon">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Once you receive your MeSnap, scan the QR code on the packaging to access our setup page. Follow the simple instructions to program your NFC chip with your contact information. This typically takes less than 2 minutes to complete. After setup, anyone can tap their phone against your MeSnap to instantly receive your contact details.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item" data-category="product">
+                    <div class="faq-question">
+                        <h3>What ID card sizes does MeSnap accommodate?</h3>
+                        <div class="faq-icon">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>MeSnap is designed to fit standard credit card sized ID cards (3.37 × 2.125 inches or 85.6 × 54 mm), which is the standard size used by most universities for student ID cards.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item" data-category="product">
+                    <div class="faq-question">
+                        <h3>Will MeSnap interfere with RFID functionality of my ID card?</h3>
+                        <div class="faq-icon">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>No, MeSnap is designed with special shielding that prevents interference with the RFID functionality of your ID card. You can still use your ID card for building access, meal plans, and other campus services without removing it from the MeSnap holder.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item" data-category="shipping">
+                    <div class="faq-question">
+                        <h3>How long does shipping take?</h3>
+                        <div class="faq-icon">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Standard shipping typically takes 3-5 business days within the continental United States. We also offer expedited shipping options at checkout for faster delivery. International shipping times vary by location but generally take 7-14 business days.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item" data-category="shipping">
+                    <div class="faq-question">
+                        <h3>Do you ship internationally?</h3>
+                        <div class="faq-icon">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we ship to most countries worldwide. International shipping costs and delivery times are calculated at checkout based on your location. Please note that import duties and taxes may apply depending on your country's regulations.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item" data-category="payment">
+                    <div class="faq-question">
+                        <h3>What payment methods do you accept?</h3>
+                        <div class="faq-icon">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We accept Apple Pay, all major credit cards (Visa, Mastercard, American Express, Discover), and PayPal. All payments are processed securely through our encrypted payment system.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item" data-category="returns">
+                    <div class="faq-question">
+                        <h3>What is your return policy?</h3>
+                        <div class="faq-icon">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We offer a 30-day satisfaction guarantee. If you're not completely satisfied with your MeSnap, you can return it within 30 days of receipt for a full refund or exchange. The product must be in its original condition and packaging. Please note that shipping costs for returns are the responsibility of the customer unless the return is due to a defect or error on our part.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item" data-category="returns">
+                    <div class="faq-question">
+                        <h3>How do I initiate a return or exchange?</h3>
+                        <div class="faq-icon">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>To initiate a return or exchange, please visit our Contact page and fill out the form with your order details and reason for return. Our customer service team will respond within 24 hours with return instructions and a prepaid shipping label if applicable.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="contact-cta">
+            <h2>Still have questions?</h2>
+            <p>Our support team is ready to help you with any other questions you might have.</p>
+            <a href="contact.html" class="btn primary-btn">Contact Us</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>MeSnap<span>.App</span></h3>
+                <p>Making student life easier and more stylish.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="product.html">Shop</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#" class="social-icon">Instagram</a>
+                    <a href="#" class="social-icon">Twitter</a>
+                    <a href="#" class="social-icon">TikTok</a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 MeSnap.App. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/faq.js"></script>
+</body>
+</html>

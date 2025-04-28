@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeSnap - Checkout</title>
+    <link rel="stylesheet" href="public/css/main.css">
+    <link rel="stylesheet" href="public/css/checkout.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>MeSnap<span>.App</span></h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="product.html">Product</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="cart-icon">
+            <a href="cart.html">
+                <img src="public/assets/icons/cart.svg" alt="Shopping Cart">
+                <span class="cart-count">0</span>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="checkout-container">
+            <h1>Checkout</h1>
+            
+            <div class="checkout-progress">
+                <div class="progress-step active">Cart</div>
+                <div class="progress-bar"></div>
+                <div class="progress-step active">Shipping</div>
+                <div class="progress-bar"></div>
+                <div class="progress-step">Payment</div>
+                <div class="progress-bar"></div>
+                <div class="progress-step">Confirmation</div>
+            </div>
+
+            <div class="checkout-grid">
+                <div class="checkout-form">
+                    <form id="shipping-form">
+                        <h2>Shipping Information</h2>
+                        
+                        <div class="form-group">
+                            <label for="fullname">Full Name</label>
+                            <input type="text" id="fullname" name="fullname" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="address">Street Address</label>
+                            <input type="text" id="address" name="address" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" name="city" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="state">State/Province</label>
+                                <input type="text" id="state" name="state" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="zip">Zip/Postal Code</label>
+                                <input type="text" id="zip" name="zip" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="country">Country</label>
+                                <select id="country" name="country" required>
+                                    <option value="">Select Country</option>
+                                    <option value="US">United States</option>
+                                    <option value="CA">Canada</option>
+                                    <option value="UK">United Kingdom</option>
+                                    <option value="AU">Australia</option>
+                                    <!-- More countries would be listed here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="shipping-method">Shipping Method</label>
+                            <div class="shipping-options">
+                                <div class="shipping-option">
+                                    <input type="radio" id="standard" name="shipping-method" value="standard" checked>
+                                    <label for="standard">
+                                        <span class="shipping-name">Standard Shipping</span>
+                                        <span class="shipping-price">$4.99</span>
+                                        <span class="shipping-time">7-10 business days</span>
+                                    </label>
+                                </div>
+                                <div class="shipping-option">
+                                    <input type="radio" id="express" name="shipping-method" value="express">
+                                    <label for="express">
+                                        <span class="shipping-name">Express Shipping</span>
+                                        <span class="shipping-price">$9.99</span>
+                                        <span class="shipping-time">3-5 business days</span>
+                                    </label>
+                                </div>
+                                <div class="shipping-option">
+                                    <input type="radio" id="overnight" name="shipping-method" value="overnight">
+                                    <label for="overnight">
+                                        <span class="shipping-name">Overnight Shipping</span>
+                                        <span class="shipping-price">$19.99</span>
+                                        <span class="shipping-time">1-2 business days</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <a href="cart.html" class="btn-secondary">Back to Cart</a>
+                            <button type="submit" class="btn-primary">Continue to Payment</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="order-summary">
+                    <h2>Order Summary</h2>
+                    <div id="checkout-items">
+                        <!-- Order items will be inserted here dynamically -->
+                    </div>
+                    
+                    <div class="summary-totals">
+                        <div class="summary-line">
+                            <span>Subtotal</span>
+                            <span id="checkout-subtotal">$19.99</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Shipping</span>
+                            <span id="checkout-shipping">$4.99</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Tax</span>
+                            <span id="checkout-tax">$2.50</span>
+                        </div>
+                        <div class="summary-line total">
+                            <span>Total</span>
+                            <span id="checkout-total">$27.48</span>
+                        </div>
+                    </div>
+                    
+                    <div class="coupon-code">
+                        <input type="text" id="coupon" placeholder="Promo Code">
+                        <button id="apply-coupon" class="btn-secondary">Apply</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2>MeSnap<span>.App</span></h2>
+                <p>The Ultimate Student ID Solution</p>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="product.html">Product</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h3>Connect With Us</h3>
+                <div class="social-icons">
+                    <a href="#"><img src="public/assets/icons/instagram.svg" alt="Instagram"></a>
+                    <a href="#"><img src="public/assets/icons/twitter.svg" alt="Twitter"></a>
+                    <a href="#"><img src="public/assets/icons/tiktok.svg" alt="TikTok"></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 MeSnap.App. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="public/js/main.js"></script>
+    <script src="public/js/cart.js"></script>
+    <script src="public/js/checkout.js"></script>
+    <script src="public/js/form-validation.js"></script>
+</body>
+</html>

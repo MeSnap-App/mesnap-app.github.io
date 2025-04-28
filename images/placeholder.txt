@@ -1,0 +1,21 @@
+You'll need to add the following image files to this directory:
+
+1. hero-product.png - The main product image for the homepage hero section
+2. product-solo.png - The product by itself
+3. product-phone.png - The product attached to a phone
+4. product-lanyard.png - The product attached to a lanyard
+5. product-colors.png - The product color options
+6. accessory-lanyard.png - A lanyard accessory
+7. accessory-charger.png - A MagSafe charger accessory
+8. accessory-bundle.png - A bundle package image
+9. apple-pay.svg - Apple Pay logo
+10. visa.svg - Visa logo
+11. mastercard.svg - Mastercard logo
+12. amex.svg - American Express logo
+
+The images should ideally be:
+- High-quality with transparent backgrounds (PNG format)
+- At least 1000x1000 pixels for product images
+- Optimized for web (compressed without losing quality)
+
+For payment icons, use SVG format for best quality at any size.

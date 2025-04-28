@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - MeSnap.App</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/cart.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">MeSnap<span>.App</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="product.html">Shop</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="cart.html" class="cart-icon active">Cart <span id="cart-count">0</span></a></li>
+            </ul>
+            <div class="hamburger">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="cart-section">
+            <h1>Your Cart</h1>
+            
+            <div class="cart-container">
+                <div id="cart-items" class="cart-items">
+                    <!-- Cart items will be dynamically added here -->
+                    <div class="empty-cart-message">
+                        <p>Your cart is empty</p>
+                        <a href="product.html" class="btn primary-btn">Shop Now</a>
+                    </div>
+                    
+                    <!-- Example item (will be hidden if cart is empty) -->
+                    <div class="cart-item" style="display: none;">
+                        <div class="item-image">
+                            <img src="images/product-solo.png" alt="MeSnap ID Card Holder">
+                        </div>
+                        <div class="item-details">
+                            <h3 class="item-name">MeSnap ID Card Holder</h3>
+                            <p class="item-color">Color: <span>Black</span></p>
+                            <div class="item-quantity">
+                                <button class="quantity-btn">-</button>
+                                <input type="number" value="1" min="1" max="10">
+                                <button class="quantity-btn">+</button>
+                            </div>
+                        </div>
+                        <div class="item-price">$19.99</div>
+                        <button class="remove-item">✕</button>
+                    </div>
+                </div>
+                
+                <div class="cart-summary">
+                    <h2>Order Summary</h2>
+                    <div class="summary-item">
+                        <span>Subtotal</span>
+                        <span id="cart-subtotal">$0.00</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Shipping</span>
+                        <span id="cart-shipping">$0.00</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Tax</span>
+                        <span id="cart-tax">$0.00</span>
+                    </div>
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <span id="cart-total">$0.00</span>
+                    </div>
+                    
+                    <button id="checkout-btn" class="btn primary-btn" disabled>
+                        Checkout
+                    </button>
+                    
+                    <div class="payment-methods">
+                        <p>Payment Methods:</p>
+                        <div class="payment-icons">
+                            <img src="images/apple-pay.svg" alt="Apple Pay" class="payment-icon">
+                            <img src="images/visa.svg" alt="Visa" class="payment-icon">
+                            <img src="images/mastercard.svg" alt="Mastercard" class="payment-icon">
+                            <img src="images/amex.svg" alt="American Express" class="payment-icon">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="recommended-section">
+            <h2>You Might Also Like</h2>
+            <div class="recommended-grid">
+                <div class="recommended-item">
+                    <img src="images/accessory-lanyard.png" alt="Premium Lanyard">
+                    <h3>Premium Lanyard</h3>
+                    <p class="recommended-price">$9.99</p>
+                    <button class="btn outline-btn">Add to Cart</button>
+                </div>
+                <div class="recommended-item">
+                    <img src="images/accessory-charger.png" alt="MagSafe Charger">
+                    <h3>MagSafe Charger</h3>
+                    <p class="recommended-price">$29.99</p>
+                    <button class="btn outline-btn">Add to Cart</button>
+                </div>
+                <div class="recommended-item">
+                    <img src="images/accessory-bundle.png" alt="Student Bundle">
+                    <h3>Student Bundle</h3>
+                    <p class="recommended-price">$39.99</p>
+                    <button class="btn outline-btn">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>MeSnap<span>.App</span></h3>
+                <p>Making student life easier and more stylish.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="product.html">Shop</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#" class="social-icon">Instagram</a>
+                    <a href="#" class="social-icon">Twitter</a>
+                    <a href="#" class="social-icon">TikTok</a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 MeSnap.App. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div id="checkout-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Checkout</h2>
+            <div class="checkout-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="address">Shipping Address</label>
+                    <textarea id="address" rows="3" placeholder="Enter your shipping address"></textarea>
+                </div>
+                <div class="payment-options">
+                    <h3>Payment Method</h3>
+                    <div class="payment-option">
+                        <input type="radio" id="apple-pay" name="payment" checked>
+                        <label for="apple-pay">
+                            <img src="images/apple-pay.svg" alt="Apple Pay" class="payment-icon">
+                            Apple Pay
+                        </label>
+                    </div>
+                    <div class="payment-option">
+                        <input type="radio" id="credit-card" name="payment">
+                        <label for="credit-card">
+                            <span>Credit Card</span>
+                        </label>
+                    </div>
+                </div>
+                <button id="place-order-btn" class="btn primary-btn">Place Order</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+</body>
+</html>

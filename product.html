@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop MeSnap - ID Card Holders with MagSafe & NFC</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/product.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">MeSnap<span>.App</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="product.html" class="active">Shop</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="cart.html" class="cart-icon">Cart <span id="cart-count">0</span></a></li>
+            </ul>
+            <div class="hamburger">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="product-section">
+            <div class="product-preview">
+                <div class="preview-container">
+                    <div class="product-view-container">
+                        <!-- 3D preview using model-viewer -->
+                        <model-viewer id="product-model-viewer" src="models/mesnap_yellow.glb"
+                            alt="MeSnap ID Card Holder 3D Model" camera-controls disable-pan auto-rotate
+                            rotation-per-second="30deg" background-color="#E3F2FD" exposure="1.0" shadow-intensity="0.8"
+                            shadow-softness="1" camera-orbit="180deg 75deg 3.5m" min-camera-orbit="auto auto auto"
+                            max-camera-orbit="auto auto auto" field-of-view="40deg" min-field-of-view="15deg"
+                            max-field-of-view="60deg" interaction-prompt="none" orientation="0deg 180deg 0deg"
+                            scale="0.4 0.4 0.4" ar ar-modes="webxr scene-viewer quick-look" ar-scale="0.0001"
+                            ar-placement="floor">
+                            <div class="progress-bar hide" slot="progress-bar">
+                                <div class="update-bar"></div>
+                            </div>
+                        </model-viewer>
+
+                        <!-- Separate AR Button below viewport -->
+                        <button id="ar-button" class="custom-ar-button">
+                            <span class="ar-icon"></span>
+                            View in AR
+                        </button>
+
+                        <!-- Fallback image (used if WebGL not supported) -->
+                        <img src="images/product-solo.png" alt="MeSnap ID Card Holder" id="fallback-image"
+                            class="preview-fallback">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="product-details">
+                <h1>MeSnap ID Card Holder</h1>
+                <p class="product-tagline">MagSafe Compatible with NFC Technology</p>
+
+                <div class="product-price-container">
+                    <div class="discount-badge" id="discount-badge">20% Off</div>
+                    <div class="product-price-wrapper">
+                        <span class="original-price" id="original-price">£24.99</span>
+                        <span class="current-price" id="current-price">£19.99</span>
+                    </div>
+                </div>
+
+                <div class="product-options">
+                    <div class="color-selection">
+                        <h3>Select Color:</h3>
+                        <div class="color-options">
+                            <button class="color-option" data-color="yellow" style="background-color: #FFEB3B;">
+                                <span class="color-name">Yellow</span>
+                            </button>
+                            <button class="color-option" data-color="green" style="background-color: #4CAF50;">
+                                <span class="color-name">Green</span>
+                            </button>
+                            <button class="color-option" data-color="blue" style="background-color: #2196F3;">
+                                <span class="color-name">Blue</span>
+                            </button>
+                            <button class="color-option" data-color="pink" style="background-color: #FFC0CB;">
+                                <span class="color-name">Pastel Pink</span>
+                            </button>
+                            <button class="color-option" data-color="white"
+                                style="background-color: #FFFFFF; border: 1px solid #ddd;">
+                                <span class="color-name">White</span>
+                            </button>
+                            <button class="color-option" data-color="black" style="background-color: #000000;">
+                                <span class="color-name">Black</span>
+                            </button>
+                            <button class="color-option" data-color="red" style="background-color: #F44336;">
+                                <span class="color-name">Red</span>
+                            </button>
+                        </div>
+                        <p id="selected-color">Selected: <span>Yellow</span></p>
+                    </div>
+
+                    <div class="quantity-selection">
+                        <h3>Quantity:</h3>
+                        <div class="quantity-control">
+                            <button id="decrease-quantity" class="quantity-btn">-</button>
+                            <input type="number" id="quantity" value="1" min="1" max="10">
+                            <button id="increase-quantity" class="quantity-btn">+</button>
+                        </div>
+                        <p id="stock-status">In Stock</p>
+                    </div>
+                </div>
+
+                <div class="product-actions">
+                    <button id="add-to-cart" class="btn primary-btn">Add to Cart</button>
+                    <button id="buy-now" class="btn secondary-btn">Buy Now</button>
+                </div>
+
+                <div class="product-description">
+                    <h3>Product Details</h3>
+                    <p>MeSnap is the ultimate ID card solution for university students, combining style with
+                        cutting-edge technology.</p>
+                    <ul class="feature-list">
+                        <li>Built-in MagSafe magnets compatible with iPhone 12 and newer</li>
+                        <li>Embedded NFC chip for easy contact sharing</li>
+                        <li>Durable plastic construction that protects your ID card</li>
+                        <li>Universal lanyard hole compatible with standard lanyards</li>
+                        <li>Sleek, lightweight design (only 15g)</li>
+                        <li>Water-resistant and easy to clean</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="related-products">
+            <h2>Accessories You Might Like</h2>
+            <div class="related-grid" id="related-products-container">
+                <!-- Will be populated dynamically from the product data -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>MeSnap<span>.App</span></h3>
+                <p>Making student life easier and more stylish.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="product.html">Shop</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#" class="social-icon">Instagram</a>
+                    <a href="#" class="social-icon">Twitter</a>
+                    <a href="#" class="social-icon">TikTok</a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 MeSnap.App. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Model Viewer library -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
+    <!-- Our scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/product.js"></script>
+</body>
+
+</html>
