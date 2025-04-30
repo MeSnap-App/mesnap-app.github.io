@@ -15,7 +15,7 @@
           "hex": "#4CAF50",
           "stock": 25,
           "modelColor": "0x4CAF50",
-          "price_id": "price_green_1OlWZoLPEdzXD5sUJbemLJPf",
+          "price_id": "price_1RJ1AHAIKeA0MU3RexJF29hd",
           "price": 17.99
         },
         {
@@ -23,7 +23,7 @@
           "hex": "#2196F3",
           "stock": 30,
           "modelColor": "0x2196F3",
-          "price_id": "price_blue_1OlWZoLPEdzXD5sUJbemLJPf",
+          "price_id": "price_1RJ1DKAIKeA0MU3RONYXu9KJ",
           "price": 19.99
         },
         {
@@ -31,7 +31,7 @@
           "hex": "#FFEB3B",
           "stock": 20,
           "modelColor": "0xFFEB3B",
-          "price_id": "price_yellow_1OlWZoLPEdzXD5sUJbemLJPf",
+          "price_id": "price_1RJ0uFAIKeA0MU3RKqwHqhJ4",
           "price": 19.99,
           "default": true
         },
@@ -40,7 +40,7 @@
           "hex": "#FFC0CB",
           "stock": 15,
           "modelColor": "0xFFC0CB",
-          "price_id": "price_pink_1OlWZoLPEdzXD5sUJbemLJPf",
+          "price_id": "price_1RJ1DxAIKeA0MU3RPKeKzgk2",
           "price": 21.99
         },
         {
@@ -48,7 +48,7 @@
           "hex": "#FFFFFF",
           "stock": 35,
           "modelColor": "0xFFFFFF",
-          "price_id": "price_white_1OlWZoLPEdzXD5sUJbemLJPf",
+          "price_id": "price_1RJ1ETAIKeA0MU3Rsgk9Ll2b",
           "price": 18.99
         },
         {
@@ -56,7 +56,7 @@
           "hex": "#000000",
           "stock": 40,
           "modelColor": "0x000000",
-          "price_id": "price_black_1OlWZoLPEdzXD5sUJbemLJPf",
+          "price_id": "price_1RJ1EsAIKeA0MU3RFaNyWzNO",
           "price": 21.99
         },
         {
@@ -64,7 +64,7 @@
           "hex": "#F44336",
           "stock": 18,
           "modelColor": "0xF44336",
-          "price_id": "price_red_1OlWZoLPEdzXD5sUJbemLJPf",
+          "price_id": "price_1RJ1FNAIKeA0MU3RRAXRcoCZ",
           "price": 23.99
         }
       ],
