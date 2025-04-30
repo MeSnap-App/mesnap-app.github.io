@@ -71,9 +71,19 @@ function createCartItemElement(item, index) {
     cartItem.className = 'cart-item';
     cartItem.dataset.index = index;
     
+    // Get color-specific image if applicable
+    let itemImage = item.image;
+    
+    // Check if this is a MeSnap ID Card Holder with a color AND the image doesn't already point to a color image
+    if (item.name.includes('MeSnap ID Card Holder') && item.color && !itemImage.includes('shopping_cart_images')) {
+        // Convert color name to filename format (lowercase and underscores)
+        const colorFileName = item.color.toLowerCase().replace(/\s+/g, '_');
+        itemImage = `images/shopping_cart_images/${colorFileName}.png`;
+    }
+    
     cartItem.innerHTML = `
         <div class="item-image">
-            <img src="${item.image}" alt="${item.name}">
+            <img src="${itemImage}" alt="${item.name} (${item.color})">
         </div>
         <div class="item-details">
             <h3 class="item-name">${item.name}</h3>
@@ -187,22 +197,7 @@ function updateOrderSummary(summary) {
 
 // Initialize Checkout
 function initCheckout() {
-    const checkoutBtn = document.getElementById('checkout-btn');
-    
-    if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', () => {
-            // Check if items have price_id before proceeding
-            const cartItems = window.MeSnap.getCartItems();
-            const missingPriceIds = cartItems.filter(item => !item.price_id);
-            
-            if (missingPriceIds.length > 0) {
-                alert('Some items in your cart are not available for purchase at this time.');
-                return;
-            }
-            
-            window.MeSnap.openModal('checkout-modal');
-        });
-    }
-    
-    // Note: The place-order-btn event handler is now in stripe-checkout.js
+    // The checkout.js file now handles all checkout functionality
+    // This function is kept for compatibility with the existing code
+    // but we've removed the modal-based checkout
 }

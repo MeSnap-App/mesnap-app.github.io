@@ -32,14 +32,21 @@ if not DOMAIN_URL:
     print("WARNING: DOMAIN_URL environment variable not set. Using default.")
     DOMAIN_URL = "https://mesnap-stripe.up.railway.app"
 
-# Get success redirect URL - will be the GitHub Pages success URL or custom domain
-SUCCESS_URL = os.environ.get('SUCCESS_URL')
-if not SUCCESS_URL:
-    if os.environ.get('USE_CUSTOM_DOMAIN', 'true').lower() == 'true':
+# Set success URL for production
+if os.environ.get('LOCAL_TESTING', 'false').lower() == 'true':
+    # When testing locally
+    SUCCESS_URL = 'http://localhost:8000/payment-success.html'
+else:
+    # Production mode
+    # Get success redirect URL from environment or use custom domain by default
+    SUCCESS_URL = os.environ.get('SUCCESS_URL')
+    if not SUCCESS_URL:
+        # Default to using the custom domain for success URL
         SUCCESS_URL = f"{CUSTOM_DOMAIN}/payment-success.html"
-    else:
-        SUCCESS_URL = f"{GITHUB_PAGES_URL}/payment-success.html"
-print(f"Using success URL: {SUCCESS_URL}")
+        
+        # Log which domain we're using
+        print(f"Using custom domain for success URL: {SUCCESS_URL}")
+print(f"Final success URL: {SUCCESS_URL}")
 
 @app.route('/')
 def index():
@@ -100,57 +107,63 @@ def create_checkout_session():
         
         # Create Stripe session
         print("Creating Stripe checkout session")
-        session = stripe.checkout.Session.create(
-            ui_mode='embedded',
-            line_items=line_items,
-            mode='payment',
-            return_url=f"{SUCCESS_URL}?session_id={{CHECKOUT_SESSION_ID}}",
-            shipping_address_collection={
-                'allowed_countries': ['GB', 'US', 'CA', 'AU'],
-            },
-            shipping_options=[
-                {
-                    'shipping_rate_data': {
-                        'type': 'fixed_amount',
-                        'fixed_amount': {
-                            'amount': 499,
-                            'currency': 'gbp',
-                        },
-                        'display_name': 'Standard Shipping',
-                        'delivery_estimate': {
-                            'minimum': {
-                                'unit': 'business_day',
-                                'value': 5,
-                            },
-                            'maximum': {
-                                'unit': 'business_day',
-                                'value': 10,
-                            },
-                        }
-                    }
+        try:
+            session = stripe.checkout.Session.create(
+                ui_mode='embedded',
+                line_items=line_items,
+                mode='payment',
+                return_url=f"{SUCCESS_URL}?session_id={{CHECKOUT_SESSION_ID}}",
+                shipping_address_collection={
+                    'allowed_countries': ['GB', 'US', 'CA', 'AU'],
                 },
-                {
-                    'shipping_rate_data': {
-                        'type': 'fixed_amount',
-                        'fixed_amount': {
-                            'amount': 999,
-                            'currency': 'gbp',
-                        },
-                        'display_name': 'Express Shipping',
-                        'delivery_estimate': {
-                            'minimum': {
-                                'unit': 'business_day',
-                                'value': 2,
+                shipping_options=[
+                    {
+                        'shipping_rate_data': {
+                            'type': 'fixed_amount',
+                            'fixed_amount': {
+                                'amount': 499,
+                                'currency': 'gbp',
                             },
-                            'maximum': {
-                                'unit': 'business_day',
-                                'value': 5,
-                            },
+                            'display_name': 'Standard Shipping',
+                            'delivery_estimate': {
+                                'minimum': {
+                                    'unit': 'business_day',
+                                    'value': 5,
+                                },
+                                'maximum': {
+                                    'unit': 'business_day',
+                                    'value': 10,
+                                },
+                            }
                         }
-                    }
-                },
-            ]
-        )
+                    },
+                    {
+                        'shipping_rate_data': {
+                            'type': 'fixed_amount',
+                            'fixed_amount': {
+                                'amount': 999,
+                                'currency': 'gbp',
+                            },
+                            'display_name': 'Express Shipping',
+                            'delivery_estimate': {
+                                'minimum': {
+                                    'unit': 'business_day',
+                                    'value': 2,
+                                },
+                                'maximum': {
+                                    'unit': 'business_day',
+                                    'value': 5,
+                                },
+                            }
+                        }
+                    },
+                ]
+            )
+            print("Session created with ID:", session.id)
+            print("Client secret:", session.client_secret[:10] + "...")
+        except stripe.error.StripeError as e:
+            print("Stripe error creating session:", str(e))
+            raise e
         print("Session created:", session.id)
         
         # Return client secret
@@ -184,4 +197,15 @@ def session_status():
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 4242))
+    
+    # Print environment info for debugging
+    print("-" * 50)
+    print("Server starting with configuration:")
+    print(f"API Key: {'Configured' if stripe.api_key else 'MISSING'}")
+    print(f"CORS Origins: {GITHUB_PAGES_URL}, {CUSTOM_DOMAIN}")
+    print(f"Domain URL: {DOMAIN_URL}")
+    print(f"Success URL: {SUCCESS_URL}")
+    print(f"Port: {port}")
+    print("-" * 50)
+    
     app.run(host='0.0.0.0', port=port)

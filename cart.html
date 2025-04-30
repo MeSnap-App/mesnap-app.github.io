@@ -149,43 +149,7 @@
         </div>
     </footer>
 
-    <div id="checkout-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>Checkout</h2>
-            <div class="checkout-form">
-                <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" placeholder="Enter your full name">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" placeholder="Enter your email">
-                </div>
-                <div class="form-group">
-                    <label for="address">Shipping Address</label>
-                    <textarea id="address" rows="3" placeholder="Enter your shipping address"></textarea>
-                </div>
-                <div class="payment-options">
-                    <h3>Payment Method</h3>
-                    <div class="payment-option">
-                        <input type="radio" id="apple-pay" name="payment" checked>
-                        <label for="apple-pay">
-                            <img src="images/apple-pay.svg" alt="Apple Pay" class="payment-icon">
-                            Apple Pay
-                        </label>
-                    </div>
-                    <div class="payment-option">
-                        <input type="radio" id="credit-card" name="payment">
-                        <label for="credit-card">
-                            <span>Credit Card</span>
-                        </label>
-                    </div>
-                </div>
-                <button id="place-order-btn" class="btn primary-btn">Place Order</button>
-            </div>
-        </div>
-    </div>
+    <!-- We've removed the old checkout modal as we now use Stripe Checkout directly -->
 
     <div id="success-modal" class="modal">
         <div class="modal-content">
@@ -210,6 +174,7 @@
     <script src="js/main.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/checkout.js"></script>
+    <!-- Note: The checkout.js file now handles direct redirection to Stripe Checkout -->
 </body>
 
 </html>

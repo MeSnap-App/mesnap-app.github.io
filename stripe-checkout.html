@@ -6,6 +6,7 @@
     <title>Checkout - MeSnap.App</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/checkout.css">
+    <!-- Load Stripe.js before any other scripts -->
     <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
@@ -32,12 +33,13 @@
             <h1>Complete Your Purchase</h1>
             
             <div class="checkout-container">
-                <div id="checkout">
-                    <!-- Stripe checkout will be mounted here -->
-                    <div class="loading-indicator">
+                <div id="checkout-wrapper">
+                    <div id="loading-indicator" class="loading-indicator">
                         <div class="spinner"></div>
                         <p>Loading payment form...</p>
                     </div>
+                    <!-- Empty container for Stripe checkout -->
+                    <div id="checkout" style="display:none;"></div>
                 </div>
             </div>
         </section>

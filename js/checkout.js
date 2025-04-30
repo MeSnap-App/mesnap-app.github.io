@@ -21,10 +21,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Prepare items for Stripe
-            const items = cartItems.map(item => ({
-                id: item.price_id,
-                quantity: item.quantity
-            }));
+            const items = cartItems.map(item => {
+                console.log('Preparing item for checkout:', item);
+                if (!item.price_id) {
+                    console.error('Item missing price_id:', item);
+                }
+                return {
+                    id: item.price_id,
+                    quantity: item.quantity
+                };
+            });
 
             // Show loading state
             checkoutBtn.disabled = true;

@@ -339,6 +339,10 @@ function initAddToCart() {
         const colorInfo = window.selectedColorInfo || 
             productData.colors.find(c => c.name.toLowerCase() === selectedColor.toLowerCase());
         
+        // Create color-specific image path for the cart
+        const colorFileName = selectedColor.toLowerCase().replace(/\s+/g, '_');
+        const colorImage = `images/shopping_cart_images/${colorFileName}.png`;
+        
         const product = {
             id: productData.id,
             name: productData.name,
@@ -346,7 +350,7 @@ function initAddToCart() {
             quantity: currentQuantity,
             price: colorInfo ? colorInfo.price : productData.price, // Use color-specific price if available
             currency: productData.currency,
-            image: productData.images.solo,
+            image: colorImage, // Use color-specific image
             price_id: colorInfo ? colorInfo.price_id : null // Include price_id for Stripe
         };
         
@@ -371,6 +375,10 @@ function initBuyNow() {
         const colorInfo = window.selectedColorInfo || 
             productData.colors.find(c => c.name.toLowerCase() === selectedColor.toLowerCase());
         
+        // Create color-specific image path for the cart
+        const colorFileName = selectedColor.toLowerCase().replace(/\s+/g, '_');
+        const colorImage = `images/shopping_cart_images/${colorFileName}.png`;
+        
         const product = {
             id: productData.id,
             name: productData.name,
@@ -378,7 +386,7 @@ function initBuyNow() {
             quantity: currentQuantity,
             price: colorInfo ? colorInfo.price : productData.price, // Use color-specific price if available
             currency: productData.currency,
-            image: productData.images.solo,
+            image: colorImage, // Use color-specific image
             price_id: colorInfo ? colorInfo.price_id : null // Include price_id for Stripe
         };
         
