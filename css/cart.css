@@ -417,11 +417,29 @@
         position: absolute;
         top: 2rem;
         right: 4rem;
+        font-size: 1.4rem; /* Smaller font size on mobile */
+        background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+        padding: 0.2rem 0.5rem;
+        border-radius: 0.3rem;
     }
     
     .remove-item {
         position: absolute;
         top: 2rem;
         right: 1rem;
+    }
+    
+    /* Make item name wrap properly and not overlap with price */
+    .item-name {
+        font-size: 1.6rem;
+        max-width: 70%;
+        white-space: normal;
+        word-wrap: break-word;
+    }
+    
+    /* Adjust layout on very small screens */
+    .cart-item {
+        position: relative;
+        padding-top: 3.5rem; /* Provide more space for the price at the top */
     }
 }
