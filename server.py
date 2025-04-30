@@ -122,7 +122,7 @@ def create_checkout_session():
                         'shipping_rate_data': {
                             'type': 'fixed_amount',
                             'fixed_amount': {
-                                'amount': 499,
+                                'amount': 0.99,
                                 'currency': 'gbp',
                             },
                             'display_name': 'Standard Shipping',
@@ -142,7 +142,7 @@ def create_checkout_session():
                         'shipping_rate_data': {
                             'type': 'fixed_amount',
                             'fixed_amount': {
-                                'amount': 999,
+                                'amount': 1.99,
                                 'currency': 'gbp',
                             },
                             'display_name': 'Express Shipping',
