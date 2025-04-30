@@ -33,8 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 // Get the backend URL from configuration or environment
                 const BACKEND_URL = window.MESNAP_CONFIG?.STRIPE_BACKEND_URL || 'https://mesnap-stripe.up.railway.app';
+                console.log("Using backend URL:", BACKEND_URL);
+                console.log("Cart items being sent:", items);
                 
                 // Send request to create checkout session
+                console.log("Sending request to:", `${BACKEND_URL}/create-checkout-session`);
                 const response = await fetch(`${BACKEND_URL}/create-checkout-session`, {
                     method: 'POST',
                     headers: {
@@ -45,7 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (!response.ok) {
                     const errorText = await response.text();
-                    throw new Error(`Error: ${errorText}`);
+                    console.error("Server response error:", response.status, errorText);
+                    throw new Error(`Error: ${response.status} - ${errorText}`);
                 }
 
                 const { clientSecret } = await response.json();

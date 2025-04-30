@@ -19,10 +19,11 @@ stripe.api_key = os.environ.get('STRIPE_API_KEY')
 if not stripe.api_key:
     raise ValueError("STRIPE_API_KEY environment variable must be set")
 
-# Enable CORS for GitHub Pages
+# Enable CORS for all domains
 GITHUB_PAGES_URL = os.environ.get('GITHUB_PAGES_URL', 'https://mesnap-app.github.io')
+CUSTOM_DOMAIN = os.environ.get('CUSTOM_DOMAIN', 'https://mesnap.app')
 CORS(app, resources={
-    r"/*": {"origins": [GITHUB_PAGES_URL, "http://localhost:*"], "supports_credentials": True}
+    r"/*": {"origins": [GITHUB_PAGES_URL, CUSTOM_DOMAIN, "http://localhost:*", "*"], "supports_credentials": True}
 })
 
 # Get domain URL - will be the Railway app URL
@@ -31,8 +32,14 @@ if not DOMAIN_URL:
     print("WARNING: DOMAIN_URL environment variable not set. Using default.")
     DOMAIN_URL = "https://mesnap-stripe.up.railway.app"
 
-# Get success redirect URL - will be the GitHub Pages success URL
-SUCCESS_URL = os.environ.get('SUCCESS_URL', f"{GITHUB_PAGES_URL}/payment-success.html")
+# Get success redirect URL - will be the GitHub Pages success URL or custom domain
+SUCCESS_URL = os.environ.get('SUCCESS_URL')
+if not SUCCESS_URL:
+    if os.environ.get('USE_CUSTOM_DOMAIN', 'true').lower() == 'true':
+        SUCCESS_URL = f"{CUSTOM_DOMAIN}/payment-success.html"
+    else:
+        SUCCESS_URL = f"{GITHUB_PAGES_URL}/payment-success.html"
+print(f"Using success URL: {SUCCESS_URL}")
 
 @app.route('/')
 def index():
@@ -51,6 +58,8 @@ def index():
 def create_checkout_session():
     try:
         print("Processing checkout request")
+        print("Request headers:", dict(request.headers))
+        print("Request Origin:", request.headers.get('Origin'))
         print("Request Content-Type:", request.headers.get('Content-Type'))
         
         # Parse JSON data
