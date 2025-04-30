@@ -1,0 +1,117 @@
+/* Stripe Checkout Styles */
+
+.checkout-section {
+    padding: 6rem 4rem;
+    max-width: 120rem;
+    margin: 0 auto;
+}
+
+.checkout-section h1 {
+    margin-bottom: 4rem;
+    text-align: center;
+}
+
+.checkout-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 3rem;
+}
+
+#checkout {
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Loading indicator styles */
+.loading-indicator {
+    text-align: center;
+    padding: 2rem;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(0, 0, 0, 0.1);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s ease-in-out infinite;
+    margin: 0 auto 2rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-indicator p {
+    font-size: 1.6rem;
+    color: var(--gray-dark);
+}
+
+/* Error message styles */
+.error-message {
+    text-align: center;
+    padding: 2rem;
+    color: var(--error);
+}
+
+.error-message p {
+    margin-bottom: 2rem;
+    font-size: 1.6rem;
+}
+
+/* Success message styles */
+.success-message {
+    text-align: center;
+    padding: 3rem;
+}
+
+.success-icon {
+    width: 8rem;
+    height: 8rem;
+    background-color: var(--success);
+    color: var(--white);
+    font-size: 4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2.5rem;
+}
+
+.success-message h2 {
+    color: var(--success);
+    margin-bottom: 1.5rem;
+}
+
+.success-message p {
+    font-size: 1.6rem;
+    margin-bottom: 2.5rem;
+    color: var(--gray-dark);
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+    .checkout-section {
+        padding: 4rem 2rem;
+    }
+    
+    .checkout-container {
+        padding: 2rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .checkout-section {
+        padding: 3rem 1.5rem;
+    }
+    
+    .checkout-container {
+        padding: 1.5rem;
+    }
+}

@@ -188,32 +188,21 @@ function updateOrderSummary(summary) {
 // Initialize Checkout
 function initCheckout() {
     const checkoutBtn = document.getElementById('checkout-btn');
-    const placeOrderBtn = document.getElementById('place-order-btn');
     
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', () => {
+            // Check if items have price_id before proceeding
+            const cartItems = window.MeSnap.getCartItems();
+            const missingPriceIds = cartItems.filter(item => !item.price_id);
+            
+            if (missingPriceIds.length > 0) {
+                alert('Some items in your cart are not available for purchase at this time.');
+                return;
+            }
+            
             window.MeSnap.openModal('checkout-modal');
         });
     }
     
-    if (placeOrderBtn) {
-        placeOrderBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            // Close checkout modal
-            const checkoutModal = document.getElementById('checkout-modal');
-            if (checkoutModal) {
-                checkoutModal.classList.remove('active');
-            }
-            
-            // Show success modal
-            window.MeSnap.openModal('success-modal');
-            
-            // Clear cart after successful order
-            window.MeSnap.clearCart();
-            
-            // Reload cart items display
-            setTimeout(loadCartItems, 500);
-        });
-    }
+    // Note: The place-order-btn event handler is now in stripe-checkout.js
 }

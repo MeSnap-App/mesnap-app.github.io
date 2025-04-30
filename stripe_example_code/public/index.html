@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Product Selection</title>
+    <meta name="description" content="Product selection page" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="index.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Select Products</h1>
+      <div class="products">
+        <div class="product-card">
+          <h2>Product 1</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <div class="quantity-selector">
+            <label for="product1-quantity">Quantity:</label>
+            <input type="number" id="product1-quantity" min="0" value="1">
+          </div>
+        </div>
+        
+        <div class="product-card">
+          <h2>Product 2</h2>
+          <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <div class="quantity-selector">
+            <label for="product2-quantity">Quantity:</label>
+            <input type="number" id="product2-quantity" min="0" value="1">
+          </div>
+        </div>
+      </div>
+      
+      <button id="checkout-button" class="checkout-button">Proceed to Checkout</button>
+    </div>
+  </body>
+</html>

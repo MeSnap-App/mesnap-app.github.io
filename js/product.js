@@ -179,6 +179,9 @@ function updateModelColor(colorName) {
     
     console.log(`Updating model to color: ${colorName}`);
     
+    // Store the selected color info globally for cart access
+    window.selectedColorInfo = colorInfo;
+    
     // Get model parameters
     const params = getModelParams();
     
@@ -263,6 +266,9 @@ function initColorSelection() {
             
             // Update stock status
             updateStockStatus();
+            
+            // Update price display with color-specific price
+            updatePriceDisplay();
         });
     });
     
@@ -329,14 +335,19 @@ function initAddToCart() {
     addToCartBtn.addEventListener('click', () => {
         if (!productData) return;
         
+        // Get the selected color info for price_id and color-specific price
+        const colorInfo = window.selectedColorInfo || 
+            productData.colors.find(c => c.name.toLowerCase() === selectedColor.toLowerCase());
+        
         const product = {
             id: productData.id,
             name: productData.name,
             color: selectedColor,
             quantity: currentQuantity,
-            price: productData.price,
+            price: colorInfo ? colorInfo.price : productData.price, // Use color-specific price if available
             currency: productData.currency,
-            image: productData.images.solo
+            image: productData.images.solo,
+            price_id: colorInfo ? colorInfo.price_id : null // Include price_id for Stripe
         };
         
         // Add to cart
@@ -356,14 +367,19 @@ function initBuyNow() {
     buyNowBtn.addEventListener('click', () => {
         if (!productData) return;
         
+        // Get the selected color info for price_id and color-specific price
+        const colorInfo = window.selectedColorInfo || 
+            productData.colors.find(c => c.name.toLowerCase() === selectedColor.toLowerCase());
+        
         const product = {
             id: productData.id,
             name: productData.name,
             color: selectedColor,
             quantity: currentQuantity,
-            price: productData.price,
+            price: colorInfo ? colorInfo.price : productData.price, // Use color-specific price if available
             currency: productData.currency,
-            image: productData.images.solo
+            image: productData.images.solo,
+            price_id: colorInfo ? colorInfo.price_id : null // Include price_id for Stripe
         };
         
         // Add to cart
@@ -407,7 +423,7 @@ function loadProductData() {
         });
 }
 
-// Update price display based on product data
+// Update price display based on product data and selected color
 function updatePriceDisplay() {
     if (!productData) return;
     
@@ -415,8 +431,15 @@ function updatePriceDisplay() {
     const originalPrice = document.getElementById('original-price');
     const discountBadge = document.getElementById('discount-badge');
     
+    // Get the selected color info to display its specific price
+    const colorInfo = window.selectedColorInfo || 
+        productData.colors.find(c => c.name.toLowerCase() === selectedColor.toLowerCase());
+    
+    // Get the appropriate price (color-specific or default product price)
+    const priceToDisplay = colorInfo && colorInfo.price ? colorInfo.price : productData.price;
+    
     if (currentPrice) {
-        currentPrice.textContent = window.MeSnap.formatCurrency(productData.price, productData.currency);
+        currentPrice.textContent = window.MeSnap.formatCurrency(priceToDisplay, productData.currency);
     }
     
     // Check if there's a discount
@@ -516,7 +539,8 @@ function initRelatedProducts() {
                         quantity: 1,
                         price: accessory.price,
                         currency: accessory.currency,
-                        image: accessory.image
+                        image: accessory.image,
+                        price_id: accessory.price_id // Include price_id for Stripe
                     };
                     
                     window.MeSnap.addToCart(accessoryToAdd);

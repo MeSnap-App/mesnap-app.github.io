@@ -184,8 +184,29 @@
             </div>
         </div>
     </div>
+    
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-success">&times;</span>
+            <div class="success-content">
+                <div class="success-icon">✓</div>
+                <h2>Order Placed Successfully!</h2>
+                <p>Thank you for your purchase. You will receive a confirmation email shortly.</p>
+                <button class="btn primary-btn" onclick="window.location.href='index.html'">Continue Shopping</button>
+            </div>
+        </div>
+    </div>
 
+    <!-- Configuration for the frontend -->
+    <script>
+        window.MESNAP_CONFIG = {
+            STRIPE_BACKEND_URL: 'https://mesnap-stripe.up.railway.app',
+            STRIPE_PUBLIC_KEY: 'pk_live_51RJ0KLAIKeA0MU3RgU9KOf6vdPzuO0ONLTFGeysa4RkdfzRZzd7orAQSgLzHEyLG0M69x3PcCNpJ674buI4SlL9H00YFacEAoo'
+        };
+    </script>
+    
     <script src="js/main.js"></script>
     <script src="js/cart.js"></script>
+    <script src="js/checkout.js"></script>
 </body>
 </html>

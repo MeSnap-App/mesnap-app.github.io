@@ -14,44 +14,58 @@
           "name": "Green",
           "hex": "#4CAF50",
           "stock": 25,
-          "modelColor": "0x4CAF50"
+          "modelColor": "0x4CAF50",
+          "price_id": "price_green_1OlWZoLPEdzXD5sUJbemLJPf",
+          "price": 17.99
         },
         {
           "name": "Blue",
           "hex": "#2196F3",
           "stock": 30,
-          "modelColor": "0x2196F3"
+          "modelColor": "0x2196F3",
+          "price_id": "price_blue_1OlWZoLPEdzXD5sUJbemLJPf",
+          "price": 19.99
         },
         {
           "name": "Yellow",
           "hex": "#FFEB3B",
           "stock": 20,
           "modelColor": "0xFFEB3B",
+          "price_id": "price_yellow_1OlWZoLPEdzXD5sUJbemLJPf",
+          "price": 19.99,
           "default": true
         },
         {
           "name": "Pastel Pink",
           "hex": "#FFC0CB",
           "stock": 15,
-          "modelColor": "0xFFC0CB"
+          "modelColor": "0xFFC0CB",
+          "price_id": "price_pink_1OlWZoLPEdzXD5sUJbemLJPf",
+          "price": 21.99
         },
         {
           "name": "White",
           "hex": "#FFFFFF",
           "stock": 35,
-          "modelColor": "0xFFFFFF"
+          "modelColor": "0xFFFFFF",
+          "price_id": "price_white_1OlWZoLPEdzXD5sUJbemLJPf",
+          "price": 18.99
         },
         {
           "name": "Black",
           "hex": "#000000",
           "stock": 40,
-          "modelColor": "0x000000"
+          "modelColor": "0x000000",
+          "price_id": "price_black_1OlWZoLPEdzXD5sUJbemLJPf",
+          "price": 21.99
         },
         {
           "name": "Red",
           "hex": "#F44336",
           "stock": 18,
-          "modelColor": "0xF44336"
+          "modelColor": "0xF44336",
+          "price_id": "price_red_1OlWZoLPEdzXD5sUJbemLJPf",
+          "price": 23.99
         }
       ],
       "features": [
@@ -109,6 +123,7 @@
       "description": "High-quality lanyard with durable clip and adjustable length.",
       "price": 9.99,
       "currency": "GBP",
+      "price_id": "price_lanyard_1OlWZoLPEdzXD5sUJbemLJPf",
       "image": "images/accessory-lanyard.png",
       "stock": 50
     },
@@ -121,6 +136,7 @@
       "discount": 33,
       "discountLabel": "Bundle Discount",
       "currency": "GBP",
+      "price_id": "price_bundle_1OlWZoLPEdzXD5sUJbemLJPf",
       "image": "images/accessory-bundle.png",
       "stock": 15
     }
