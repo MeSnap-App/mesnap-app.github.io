@@ -3,7 +3,7 @@
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     const checkoutBtn = document.getElementById('checkout-btn');
-    
+
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', async () => {
             // Check if cart is empty
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const BACKEND_URL = window.MESNAP_CONFIG?.STRIPE_BACKEND_URL || 'https://mesnap-stripe.up.railway.app';
                 console.log("Using backend URL:", BACKEND_URL);
                 console.log("Cart items being sent:", items);
-                
+
                 // Send request to create checkout session
                 console.log("Sending request to:", `${BACKEND_URL}/create-checkout-session`);
                 const response = await fetch(`${BACKEND_URL}/create-checkout-session`, {
@@ -59,17 +59,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 const { clientSecret } = await response.json();
-                
+
                 // Store the client secret in session storage
                 sessionStorage.setItem('checkoutClientSecret', clientSecret);
-                
+
                 // Redirect to the checkout page
-                window.location.href = 'stripe-checkout.html';
-                
+                window.location.href = '/stripe-checkout';
+
             } catch (error) {
                 console.error('Error creating checkout session:', error);
                 alert('There was a problem with the checkout process. Please try again.');
-                
+
                 // Reset button state
                 checkoutBtn.disabled = false;
                 checkoutBtn.textContent = 'Checkout';

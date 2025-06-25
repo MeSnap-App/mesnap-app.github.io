@@ -5,21 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop MeSnap - ID Card Holders with MagSafe & NFC</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/product.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/product.css">
 </head>
 
 <body>
     <header>
         <nav>
-            <div class="logo" onclick="window.location.href='index.html'" style="cursor:pointer;">
+            <div class="logo" onclick="window.location.href='/'" style="cursor:pointer;">
                 MeSnap<span>.App</span></div>
             <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="product.html" class="active">Shop</a></li>
-                <li><a href="faq.html">FAQ</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="cart.html" class="cart-icon">Cart <span id="cart-count">0</span></a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/product class=" active">Shop</a></li>
+                <li><a href="/faq">FAQ</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/cart" class="cart-icon">Cart <span id="cart-count">0</span></a></li>
             </ul>
             <div class="hamburger">
                 <div class="line"></div>
@@ -35,7 +35,7 @@
                 <div class="preview-container">
                     <div class="product-view-container">
                         <!-- 3D preview using model-viewer with simplified parameters -->
-                        <model-viewer id="product-model-viewer" src="models/mesnap_yellow.glb"
+                        <model-viewer id="product-model-viewer" src="../models/mesnap_yellow.glb"
                             alt="MeSnap ID Card Holder 3D Model" camera-controls disable-pan auto-rotate
                             background-color="#E3F2FD" camera-orbit="180deg 75deg 4m" field-of-view="35deg"
                             interaction-prompt="none" ar ar-modes="webxr scene-viewer quick-look" ar-scale="0.00005"
@@ -56,7 +56,7 @@
                         </button>
 
                         <!-- Fallback image (used if WebGL not supported) -->
-                        <img src="images/product-solo.png" alt="MeSnap ID Card Holder" id="fallback-image"
+                        <img src="../images/product-solo.png" alt="MeSnap ID Card Holder" id="fallback-image"
                             class="preview-fallback">
                     </div>
 
@@ -154,10 +154,10 @@
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="product.html">Shop</a></li>
-                    <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/product">Shop</a></li>
+                    <li><a href="/faq">FAQ</a></li>
+                    <li><a href="/contact">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -198,7 +198,7 @@
             const applyPosition = () => {
                 // Scale
                 modelViewer.scale = `${scale} ${scale} ${scale}`;
-                
+
                 // Position translation
                 modelViewer.style.setProperty('--model-translate-y', `${moveUp}m`);
                 modelViewer.style.setProperty('--model-translate-z', `${moveBack}m`);
@@ -225,8 +225,8 @@
     </script>
 
     <!-- Our scripts -->
-    <script src="js/main.js"></script>
-    <script src="js/product.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/product.js"></script>
 </body>
 
 </html>

@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Cart - MeSnap.App</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/cart.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/cart.css">
 </head>
 
 <body>
@@ -14,11 +14,11 @@
         <nav>
             <div class="logo">MeSnap<span>.App</span></div>
             <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="product.html">Shop</a></li>
-                <li><a href="faq.html">FAQ</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="cart.html" class="cart-icon active">Cart <span id="cart-count">0</span></a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/product">Shop</a></li>
+                <li><a href="/faq">FAQ</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/cart" class="cart-icon active">Cart <span id="cart-count">0</span></a></li>
             </ul>
             <div class="hamburger">
                 <div class="line"></div>
@@ -37,13 +37,13 @@
                     <!-- Cart items will be dynamically added here -->
                     <div class="empty-cart-message">
                         <p>Your cart is empty</p>
-                        <a href="product.html" class="btn primary-btn">Shop Now</a>
+                        <a href="/product" class="btn primary-btn">Shop Now</a>
                     </div>
 
                     <!-- Example item (will be hidden if cart is empty) -->
                     <div class="cart-item" style="display: none;">
                         <div class="item-image">
-                            <img src="images/product-solo.png" alt="MeSnap ID Card Holder">
+                            <img src="../images/product-solo.png" alt="MeSnap ID Card Holder">
                         </div>
                         <div class="item-details">
                             <h3 class="item-name">MeSnap ID Card Holder</h3>
@@ -85,10 +85,10 @@
                     <div class="payment-methods">
                         <p>Payment Methods:</p>
                         <div class="payment-icons">
-                            <img src="images/apple-pay.svg" alt="Apple Pay" class="payment-icon">
-                            <img src="images/visa.svg" alt="Visa" class="payment-icon">
-                            <img src="images/mastercard.svg" alt="Mastercard" class="payment-icon">
-                            <img src="images/amex.svg" alt="American Express" class="payment-icon">
+                            <img src="../images/apple-pay.svg" alt="Apple Pay" class="payment-icon">
+                            <img src="../images/visa.svg" alt="Visa" class="payment-icon">
+                            <img src="../images/mastercard.svg" alt="Mastercard" class="payment-icon">
+                            <img src="../images/amex.svg" alt="American Express" class="payment-icon">
                         </div>
                     </div>
                 </div>
@@ -99,19 +99,19 @@
             <h2>You Might Also Like</h2>
             <div class="recommended-grid">
                 <div class="recommended-item">
-                    <img src="images/accessory-lanyard.png" alt="Premium Lanyard">
+                    <img src="../images/accessory-lanyard.png" alt="Premium Lanyard">
                     <h3>Premium Lanyard</h3>
                     <p class="recommended-price">$9.99</p>
                     <button class="btn outline-btn">Add to Cart</button>
                 </div>
                 <div class="recommended-item">
-                    <img src="images/accessory-charger.png" alt="MagSafe Charger">
+                    <img src="../images/accessory-charger.png" alt="MagSafe Charger">
                     <h3>MagSafe Charger</h3>
                     <p class="recommended-price">$29.99</p>
                     <button class="btn outline-btn">Add to Cart</button>
                 </div>
                 <div class="recommended-item">
-                    <img src="images/accessory-bundle.png" alt="Student Bundle">
+                    <img src="../images/accessory-bundle.png" alt="Student Bundle">
                     <h3>Student Bundle</h3>
                     <p class="recommended-price">$39.99</p>
                     <button class="btn outline-btn">Add to Cart</button>
@@ -129,10 +129,10 @@
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="product.html">Shop</a></li>
-                    <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/product">Shop</a></li>
+                    <li><a href="/faq">FAQ</a></li>
+                    <li><a href="/contact">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -158,7 +158,7 @@
                 <div class="success-icon">✓</div>
                 <h2>Order Placed Successfully!</h2>
                 <p>Thank you for your purchase. You will receive a confirmation email shortly.</p>
-                <button class="btn primary-btn" onclick="window.location.href='index.html'">Continue Shopping</button>
+                <button class="btn primary-btn" onclick="window.location.href='/'">Continue Shopping</button>
             </div>
         </div>
     </div>
@@ -171,9 +171,9 @@
         };
     </script>
 
-    <script src="js/main.js"></script>
-    <script src="js/cart.js"></script>
-    <script src="js/checkout.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/checkout.js"></script>
     <!-- Note: The checkout.js file now handles direct redirection to Stripe Checkout -->
 </body>
 

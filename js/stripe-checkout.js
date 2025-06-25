@@ -10,21 +10,21 @@ document.addEventListener('DOMContentLoaded', () => {
 function initStripeCheckout() {
     const checkoutButton = document.getElementById('place-order-btn');
     if (!checkoutButton) return;
-    
+
     // Replace with your publishable key
     const stripePublicKey = 'pk_live_51RJ0KLAIKeA0MU3RgU9KOf6vdPzuO0ONLTFGeysa4RkdfzRZzd7orAQSgLzHEyLG0M69x3PcCNpJ674buI4SlL9H00YFacEAoo';
     const stripe = Stripe(stripePublicKey);
-    
+
     checkoutButton.addEventListener('click', async (e) => {
         e.preventDefault();
-        
+
         // Get cart items
         const cartItems = window.MeSnap.getCartItems();
         if (!cartItems.length) {
             alert('Your cart is empty');
             return;
         }
-        
+
         // Format items for Stripe
         const lineItems = cartItems.map(item => {
             return {
@@ -32,7 +32,7 @@ function initStripeCheckout() {
                 quantity: item.quantity
             };
         });
-        
+
         try {
             // Create checkout session
             const response = await fetch('/create-checkout-session', {
@@ -44,20 +44,20 @@ function initStripeCheckout() {
                     items: lineItems
                 }),
             });
-            
+
             if (!response.ok) {
                 const errorText = await response.text();
                 throw new Error(`Error: ${errorText}`);
             }
-            
+
             const { clientSecret } = await response.json();
-            
+
             // Store client secret in session storage
             sessionStorage.setItem('checkoutClientSecret', clientSecret);
-            
+
             // Redirect to checkout page
-            window.location.href = '/checkout.html';
-            
+            window.location.href = '/checkout';
+
         } catch (error) {
             console.error('Error creating checkout session:', error);
             alert('There was a problem with the checkout process. Please try again.');
@@ -69,7 +69,7 @@ function initStripeCheckout() {
 function handleSuccessfulPayment() {
     // Clear cart
     window.MeSnap.clearCart();
-    
+
     // Show success message
     window.MeSnap.openModal('success-modal');
 }

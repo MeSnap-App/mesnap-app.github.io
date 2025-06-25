@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout - MeSnap.App</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/checkout.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/checkout.css">
     <!-- Apple Pay domain verification -->
     <meta name="apple-pay-domain-verification" content="" />
     <!-- Load Stripe.js before any other scripts -->
     <script src="https://js.stripe.com/v3/"></script>
 </head>
+
 <body>
     <header>
         <nav>
             <div class="logo">MeSnap<span>.App</span></div>
             <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="product.html">Shop</a></li>
-                <li><a href="faq.html">FAQ</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="cart.html" class="cart-icon">Cart <span id="cart-count">0</span></a></li>
+                <li><a href="">Home</a></li>
+                <li><a href="/product">Shop</a></li>
+                <li><a href="/faq">FAQ</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/cart" class="cart-icon">Cart <span id="cart-count">0</span></a></li>
             </ul>
             <div class="hamburger">
                 <div class="line"></div>
@@ -33,7 +35,7 @@
     <main>
         <section class="checkout-section">
             <h1>Complete Your Purchase</h1>
-            
+
             <div class="checkout-container">
                 <div id="checkout-wrapper">
                     <div id="loading-indicator" class="loading-indicator">
@@ -56,10 +58,10 @@
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="product.html">Shop</a></li>
-                    <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/product">Shop</a></li>
+                    <li><a href="/faq">FAQ</a></li>
+                    <li><a href="/contact">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -83,8 +85,9 @@
             STRIPE_PUBLIC_KEY: 'pk_live_51RJ0KLAIKeA0MU3RgU9KOf6vdPzuO0ONLTFGeysa4RkdfzRZzd7orAQSgLzHEyLG0M69x3PcCNpJ674buI4SlL9H00YFacEAoo'
         };
     </script>
-    
-    <script src="js/main.js"></script>
-    <script src="js/stripe-checkout-embedded.js"></script>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/stripe-checkout-embedded.js"></script>
 </body>
+
 </html>

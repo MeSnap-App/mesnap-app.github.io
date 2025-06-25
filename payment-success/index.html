@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Successful - MeSnap.App</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/checkout.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/checkout.css">
     <style>
         .success-container {
             max-width: 800px;
@@ -16,7 +17,7 @@
             box-shadow: var(--box-shadow);
             text-align: center;
         }
-        
+
         .success-icon {
             width: 100px;
             height: 100px;
@@ -27,39 +28,40 @@
             border-radius: 50%;
             margin: 0 auto 2rem;
         }
-        
+
         .success-title {
             font-size: 2.5rem;
             color: var(--success, #4CAF50);
             margin-bottom: 1.5rem;
         }
-        
+
         .order-info {
             margin: 2rem 0;
             padding: 1.5rem;
             background-color: var(--white);
             border-radius: var(--border-radius);
         }
-        
+
         .customer-email {
             font-weight: bold;
         }
-        
+
         .continue-btn {
             margin-top: 2rem;
         }
     </style>
 </head>
+
 <body>
     <header>
         <nav>
             <div class="logo">MeSnap<span>.App</span></div>
             <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="product.html">Shop</a></li>
-                <li><a href="faq.html">FAQ</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="cart.html" class="cart-icon">Cart <span id="cart-count">0</span></a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/product">Shop</a></li>
+                <li><a href="/faq">FAQ</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/cart" class="cart-icon">Cart <span id="cart-count">0</span></a></li>
             </ul>
             <div class="hamburger">
                 <div class="line"></div>
@@ -75,12 +77,13 @@
                 <div class="success-icon">✓</div>
                 <h1 class="success-title">Payment Successful!</h1>
                 <p>Thank you for your purchase. Your order has been successfully placed.</p>
-                
+
                 <div class="order-info">
-                    <p>A confirmation email has been sent to <span id="customer-email" class="customer-email">your email address</span>.</p>
+                    <p>A confirmation email has been sent to <span id="customer-email" class="customer-email">your email
+                            address</span>.</p>
                     <p>Your order will be processed and shipped shortly.</p>
                 </div>
-                
+
                 <a href="index.html" class="btn primary-btn continue-btn">Continue Shopping</a>
             </div>
         </section>
@@ -95,10 +98,10 @@
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="product.html">Shop</a></li>
-                    <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/product">Shop</a></li>
+                    <li><a href="/faq">FAQ</a></li>
+                    <li><a href="/contact">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -122,7 +125,8 @@
             STRIPE_PUBLIC_KEY: 'pk_live_51RJ0KLAIKeA0MU3RgU9KOf6vdPzuO0ONLTFGeysa4RkdfzRZzd7orAQSgLzHEyLG0M69x3PcCNpJ674buI4SlL9H00YFacEAoo'
         };
     </script>
-    <script src="js/main.js"></script>
-    <script src="js/payment-success.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/payment-success.js"></script>
 </body>
+
 </html>

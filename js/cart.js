@@ -78,7 +78,7 @@ function createCartItemElement(item, index) {
     if (item.name.includes('MeSnap ID Card Holder') && item.color && !itemImage.includes('shopping_cart_images')) {
         // Convert color name to filename format (lowercase and underscores)
         const colorFileName = item.color.toLowerCase().replace(/\s+/g, '_');
-        itemImage = `images/shopping_cart_images/${colorFileName}.png`;
+        itemImage = `../images/shopping_cart_images/${colorFileName}.png`;
     }
 
     cartItem.innerHTML = `

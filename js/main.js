@@ -3,10 +3,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Mobile navigation toggle
     setupMobileNav();
-    
+
     // Initialize cart from localStorage
     initializeCart();
-    
+
     // Modal functionality
     setupModals();
 });
@@ -15,13 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
 function setupMobileNav() {
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
-    
+
     if (hamburger && navLinks) {
         hamburger.addEventListener('click', () => {
             navLinks.classList.toggle('active');
             hamburger.classList.toggle('active');
         });
-        
+
         // Close mobile menu when clicking on a link
         const navItems = document.querySelectorAll('.nav-links a');
         navItems.forEach(item => {
@@ -43,9 +43,9 @@ function initializeCart() {
 function updateCartCount() {
     const cartCountElements = document.querySelectorAll('#cart-count');
     const cartItems = getCartItems();
-    
+
     const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
-    
+
     cartCountElements.forEach(element => {
         element.textContent = itemCount;
     });
@@ -58,12 +58,12 @@ function getCartItems() {
 
 function addToCart(product) {
     let cart = getCartItems();
-    
+
     // Check if product already exists in cart
-    const existingItemIndex = cart.findIndex(item => 
+    const existingItemIndex = cart.findIndex(item =>
         item.id === product.id && item.color === product.color
     );
-    
+
     if (existingItemIndex > -1) {
         // Update quantity of existing item
         cart[existingItemIndex].quantity += product.quantity;
@@ -71,29 +71,29 @@ function addToCart(product) {
         // Add new item to cart
         cart.push(product);
     }
-    
+
     // Save to localStorage
     localStorage.setItem('mesnap_cart', JSON.stringify(cart));
-    
+
     // Update cart count
     updateCartCount();
-    
+
     return cart;
 }
 
 function removeFromCart(index) {
     let cart = getCartItems();
-    
+
     if (index >= 0 && index < cart.length) {
         cart.splice(index, 1);
-        
+
         // Save to localStorage
         localStorage.setItem('mesnap_cart', JSON.stringify(cart));
-        
+
         // Update cart count
         updateCartCount();
     }
-    
+
     return cart;
 }
 
@@ -106,7 +106,7 @@ function clearCart() {
 function setupModals() {
     const modals = document.querySelectorAll('.modal');
     const closeBtns = document.querySelectorAll('.close-modal, .close-success');
-    
+
     // Close modal when clicking close button
     closeBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -116,7 +116,7 @@ function setupModals() {
             }
         });
     });
-    
+
     // Close modal when clicking outside content
     modals.forEach(modal => {
         modal.addEventListener('click', (e) => {
@@ -136,7 +136,7 @@ function openModal(modalId) {
 
 // Product Data Handler
 function getProductData() {
-    return fetch('data/products.json')
+    return fetch('../data/products.json')
         .then(response => response.json())
         .catch(error => {
             console.error('Error loading product data:', error);
@@ -197,7 +197,7 @@ function formatCurrency(amount, currency = 'GBP') {
         'GBP': '£',
         'EUR': '€'
     };
-    
+
     const symbol = currencySymbols[currency] || currencySymbols['GBP'];
     return symbol + amount.toFixed(2);
 }
@@ -210,7 +210,7 @@ function hasDiscount(item) {
 // Get discount display info
 function getDiscountInfo(item) {
     if (!hasDiscount(item)) return null;
-    
+
     return {
         originalPrice: formatCurrency(item.originalPrice, item.currency),
         discountPercentage: item.discount,
