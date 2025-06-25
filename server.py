@@ -35,14 +35,14 @@ if not DOMAIN_URL:
 # Set success URL for production
 if os.environ.get('LOCAL_TESTING', 'false').lower() == 'true':
     # When testing locally
-    SUCCESS_URL = 'http://localhost:8000/payment-success.html'
+    SUCCESS_URL = 'http://localhost:8000/payment-success'
 else:
     # Production mode
     # Get success redirect URL from environment or use custom domain by default
     SUCCESS_URL = os.environ.get('SUCCESS_URL')
     if not SUCCESS_URL:
         # Default to using the custom domain for success URL
-        SUCCESS_URL = f"{CUSTOM_DOMAIN}/payment-success.html"
+        SUCCESS_URL = f"{CUSTOM_DOMAIN}/payment-success"
         
         # Log which domain we're using
         print(f"Using custom domain for success URL: {SUCCESS_URL}")

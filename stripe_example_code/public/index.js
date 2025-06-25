@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
       sessionStorage.setItem('checkoutClientSecret', clientSecret);
 
       // Redirect to checkout page
-      window.location.href = '/checkout.html';
+      window.location.href = '/checkout';
 
     } catch (error) {
       console.error('Error:', error);

@@ -34,7 +34,7 @@ YOUR_DOMAIN = os.environ['DOMAIN_URL']
 
 @app.route('/')
 def index():
-    return app.send_static_file('index.html')
+    return app.send_static_file('/')
 
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
