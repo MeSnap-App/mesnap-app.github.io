@@ -2,7 +2,7 @@
 
 // Product Data
 let productData = null;
-let selectedColor = 'Yellow'; // Default to yellow
+let selectedColor = 'Mango Yellow'; // Default to yellow
 let currentQuantity = 1;
 
 // Initialize when DOM is loaded
@@ -221,17 +221,17 @@ function updateModelColor(colorName) {
         // If specific color model fails, fallback to yellow
         if (colorFileName !== 'yellow') {
             console.log('Falling back to default yellow model');
-            modelViewer.src = '../models/mesnap_yellow.glb';
+            modelViewer.src = '../models/mesnap_mango_yellow.glb';
         }
     }, { once: true });
 }
 
 // Get default color from product data
 function getDefaultColor() {
-    if (!productData || !productData.colors) return 'Yellow';
+    if (!productData || !productData.colors) return 'Mango Yellow';
 
     const defaultColor = productData.colors.find(c => c.default);
-    return defaultColor ? defaultColor.name : 'Yellow';
+    return defaultColor ? defaultColor.name : 'Mango Yellow';
 }
 
 // Color Selection
@@ -425,7 +425,7 @@ function loadProductData() {
             console.error('Error loading product data:', error);
 
             // Show a fallback price
-            if (currentPrice) currentPrice.textContent = '£19.99';
+            if (currentPrice) currentPrice.textContent = '£14.95';
 
             return null;
         });

@@ -115,45 +115,25 @@ def create_checkout_session():
                 return_url=f"{SUCCESS_URL}?session_id={{CHECKOUT_SESSION_ID}}",
                 payment_method_types=['card'],
                 shipping_address_collection={
-                    'allowed_countries': ['GB', 'US', 'CA', 'AU'],
+                    'allowed_countries': ['GB'],
                 },
                 shipping_options=[
                     {
                         'shipping_rate_data': {
                             'type': 'fixed_amount',
                             'fixed_amount': {
-                                'amount': 100,
+                                'amount': 0,
                                 'currency': 'gbp',
                             },
-                            'display_name': 'Standard Shipping',
+                            'display_name': 'Free Shipping',
                             'delivery_estimate': {
                                 'minimum': {
                                     'unit': 'business_day',
-                                    'value': 5,
+                                    'value': 3,
                                 },
                                 'maximum': {
                                     'unit': 'business_day',
-                                    'value': 10,
-                                },
-                            }
-                        }
-                    },
-                    {
-                        'shipping_rate_data': {
-                            'type': 'fixed_amount',
-                            'fixed_amount': {
-                                'amount': 200,
-                                'currency': 'gbp',
-                            },
-                            'display_name': 'Express Shipping',
-                            'delivery_estimate': {
-                                'minimum': {
-                                    'unit': 'business_day',
-                                    'value': 2,
-                                },
-                                'maximum': {
-                                    'unit': 'business_day',
-                                    'value': 5,
+                                    'value': 7,
                                 },
                             }
                         }

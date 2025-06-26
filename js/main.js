@@ -157,9 +157,9 @@ function getProductData() {
                             { name: 'Red', hex: '#F44336', stock: 18 }
                         ],
                         images: {
-                            solo: 'images/product-solo.png',
-                            phone: 'images/product-phone.png',
-                            lanyard: 'images/product-lanyard.png'
+                            solo: '../images/product-solo.png',
+                            phone: '../images/product-phone.png',
+                            lanyard: '../images/product-lanyard.png'
                         }
                     }
                 ],

@@ -155,7 +155,8 @@ function calculateOrderSummary(cart) {
     const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
 
     // Calculate shipping (free over $35, otherwise $5.99)
-    const shipping = subtotal >= 35 ? 0 : 5.99;
+    // const shipping = subtotal >= 35 ? 0 : 5.99;
+    const shipping = 0;
 
     // Calculate tax (8.25%)
     const tax = subtotal * 0;

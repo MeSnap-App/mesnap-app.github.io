@@ -4,61 +4,54 @@
       "id": "mesnap-001",
       "name": "MeSnap ID Card Holder",
       "description": "The ultimate ID card solution for university students, combining style with cutting-edge technology.",
-      "price": 19.99,
-      "originalPrice": 24.99,
-      "discount": 20,
+      "price": 14.95,
+      "originalPrice": 19.95,
+      "discount": 25,
       "discountLabel": "Limited Time Offer",
       "currency": "GBP",
       "colors": [
         {
-          "name": "Green",
+          "name": "Matcha Green",
           "hex": "#4CAF50",
-          "stock": 25,
-          "price_id": "price_1RJ1AHAIKeA0MU3RexJF29hd",
-          "price": 19.99
+          "stock": 50,
+          "price_id": "price_1Re3E3AIKeA0MU3Rwpbokys0",
+          "price": 14.95
         },
         {
-          "name": "Blue",
-          "hex": "#2196F3",
-          "stock": 30,
-          "price_id": "price_1RJ1DKAIKeA0MU3RONYXu9KJ",
-          "price": 19.99
-        },
-        {
-          "name": "Yellow",
+          "name": "Mango Yellow",
           "hex": "#FFEB3B",
-          "stock": 20,
-          "price_id": "price_1RJ0uFAIKeA0MU3RKqwHqhJ4",
-          "price": 19.99,
+          "stock": 50,
+          "price_id": "price_1Re3EhAIKeA0MU3R5aRQo6Jb",
+          "price": 14.95,
           "default": true
         },
         {
-          "name": "Pastel Pink",
+          "name": "Strawberry Pink",
           "hex": "#FFC0CB",
-          "stock": 15,
-          "price_id": "price_1RJ1DxAIKeA0MU3RPKeKzgk2",
-          "price": 19.99
+          "stock": 50,
+          "price_id": "price_1Re3CgAIKeA0MU3R7MhNSwf6",
+          "price": 14.95
+        },
+        {
+          "name": "Eco Grey",
+          "hex": "#222222",
+          "stock": 50,
+          "price_id": "price_1Re3IpAIKeA0MU3RJm8Fv74m",
+          "price": 14.95
         },
         {
           "name": "White",
           "hex": "#FFFFFF",
-          "stock": 35,
-          "price_id": "price_1RJ1ETAIKeA0MU3Rsgk9Ll2b",
-          "price": 19.99
+          "stock": 50,
+          "price_id": "price_1Re37QAIKeA0MU3Rxe1YDugh",
+          "price": 14.95
         },
         {
           "name": "Black",
           "hex": "#000000",
-          "stock": 40,
-          "price_id": "price_1RJ1EsAIKeA0MU3RFaNyWzNO",
-          "price": 19.99
-        },
-        {
-          "name": "Red",
-          "hex": "#F44336",
-          "stock": 18,
-          "price_id": "price_1RJ1FNAIKeA0MU3RRAXRcoC9",
-          "price": 19.99
+          "stock": 50,
+          "price_id": "price_1Re36jAIKeA0MU3RWhNSlhZ5",
+          "price": 14.95
         }
       ],
       "features": [
