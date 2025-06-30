@@ -13,6 +13,10 @@ let selectedProduct = null;
 let selectedColor = 'Mango Yellow'; // Default to yellow
 let currentQuantity = 1;
 
+// Gallery State
+let currentGalleryIndex = 0;
+let currentGalleryImages = [];
+
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     // Make sure logo links to home page
@@ -26,6 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data) {
             // Initialize color selection
             initColorSelection();
+
+            // Initialize gallery viewer
+            initGalleryViewer();
 
             // Apply initial color to model after everything is set up
             setTimeout(() => {
@@ -310,6 +317,9 @@ function initColorSelection() {
 
             // Update price display
             updatePriceDisplay();
+
+            // Refresh gallery images for new product
+            loadGallerySlider();
         });
 
         colorOptionsContainer.appendChild(colorOption);
@@ -617,4 +627,110 @@ function showConfirmation(message) {
     setTimeout(() => {
         confirmation.classList.remove('active');
     }, 3000);
+}
+
+// Gallery Slider Functions
+function initGalleryViewer() {
+    // Load gallery images for current product
+    loadGallerySlider();
+}
+
+function loadGallerySlider() {
+    if (!selectedProduct || !selectedProduct.images || !selectedProduct.images.gallery) {
+        console.log('No gallery images available for current product');
+        // Hide gallery container if no images
+        const galleryContainer = document.querySelector('.gallery-slider-container');
+        if (galleryContainer) {
+            galleryContainer.style.display = 'none';
+        }
+        return;
+    }
+
+    currentGalleryImages = selectedProduct.images.gallery;
+    currentGalleryIndex = 0;
+
+    // Show gallery container
+    const galleryContainer = document.querySelector('.gallery-slider-container');
+    if (galleryContainer) {
+        galleryContainer.style.display = 'block';
+    }
+
+    // Create gallery slides
+    const sliderContainer = document.getElementById('gallery-slider');
+    if (sliderContainer) {
+        sliderContainer.innerHTML = '';
+        
+        currentGalleryImages.forEach((imageUrl, index) => {
+            const slide = document.createElement('div');
+            slide.className = 'gallery-slide';
+            if (index === 0) slide.classList.add('active');
+            
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.alt = `${selectedProduct.name} - Image ${index + 1}`;
+            img.loading = 'lazy';
+            
+            slide.appendChild(img);
+            
+            // Add click handler
+            slide.addEventListener('click', () => {
+                setActiveSlide(index);
+            });
+            
+            sliderContainer.appendChild(slide);
+        });
+    }
+
+    // Create gallery indicators
+    const indicatorsContainer = document.getElementById('gallery-indicators');
+    if (indicatorsContainer) {
+        indicatorsContainer.innerHTML = '';
+        
+        currentGalleryImages.forEach((_, index) => {
+            const indicator = document.createElement('div');
+            indicator.className = 'gallery-indicator';
+            if (index === 0) indicator.classList.add('active');
+            
+            indicator.addEventListener('click', () => {
+                setActiveSlide(index);
+            });
+            
+            indicatorsContainer.appendChild(indicator);
+        });
+    }
+
+    console.log(`Loaded ${currentGalleryImages.length} gallery images`);
+}
+
+function setActiveSlide(index) {
+    if (!currentGalleryImages || currentGalleryImages.length === 0) return;
+
+    // Ensure index is within bounds
+    index = Math.max(0, Math.min(index, currentGalleryImages.length - 1));
+    currentGalleryIndex = index;
+
+    // Update active slide
+    const slides = document.querySelectorAll('.gallery-slide');
+    slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+    });
+
+    // Update active indicator
+    const indicators = document.querySelectorAll('.gallery-indicator');
+    indicators.forEach((indicator, i) => {
+        indicator.classList.toggle('active', i === index);
+    });
+
+    // Scroll to active slide (smooth scrolling)
+    const activeSlide = slides[index];
+    if (activeSlide) {
+        const slider = document.getElementById('gallery-slider');
+        const slideOffset = activeSlide.offsetLeft - (slider.clientWidth / 2) + (activeSlide.clientWidth / 2);
+        slider.scrollTo({
+            left: slideOffset,
+            behavior: 'smooth'
+        });
+    }
+
+    console.log(`Active slide: ${index + 1} of ${currentGalleryImages.length}`);
 }
