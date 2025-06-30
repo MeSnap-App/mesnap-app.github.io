@@ -88,7 +88,18 @@ function initModelViewer() {
         // Position the model using the tweakable parameters
         positionModel(modelViewer, params);
 
-        // Initial material properties will be applied after data loads via updateModelColor()
+        // Apply initial material properties (color, metalness 0.5, roughness 0.7)
+        setTimeout(() => {
+            if (modelViewer.model && modelViewer.model.materials.length > 0) {
+                const [material] = modelViewer.model.materials;
+                if (material && material.pbrMetallicRoughness) {
+                    material.pbrMetallicRoughness.setBaseColorFactor('#FFEB3B');
+                    material.pbrMetallicRoughness.setMetallicFactor(0.7);
+                    material.pbrMetallicRoughness.setRoughnessFactor(0.5);
+                    console.log('Applied initial color #FFEB3B, metalness 0.7, roughness 0.5 to model');
+                }
+            }
+        }, 10);
 
         // Mark as loaded
         modelViewer.classList.add('loaded');
@@ -165,7 +176,7 @@ function positionModel(modelViewer, params) {
                         console.warn('Could not set model position directly:', err);
                     }
                 }
-            }, 100); // Slight delay to ensure model is available
+            }, 10); // Slight delay to ensure model is available
         } catch (e) {
             console.warn('Could not apply translation', e);
         }
@@ -233,7 +244,7 @@ function updateModelColor(colorName) {
     } else {
         // Wait for model to load before accessing materials
         modelViewer.addEventListener('load', () => {
-            setTimeout(changeModelColor, 100); // Small delay to ensure materials are ready
+            setTimeout(changeModelColor, 10); // Small delay to ensure materials are ready
         }, { once: true });
     }
 }
