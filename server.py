@@ -113,7 +113,7 @@ def create_checkout_session():
                 line_items=line_items,
                 mode='payment',
                 return_url=f"{SUCCESS_URL}?session_id={{CHECKOUT_SESSION_ID}}",
-                payment_method_types=['card'],
+                payment_method_types=['card', 'apple_pay', 'google_pay'],
                 shipping_address_collection={
                     'allowed_countries': ['GB'],
                 },
