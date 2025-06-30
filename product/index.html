@@ -17,6 +17,7 @@
         
         .gallery-slider {
             display: flex;
+            justify-content: center;
             overflow-x: auto;
             scroll-behavior: smooth;
             gap: 15px;
@@ -127,6 +128,43 @@
             opacity: 0.7;
         }
         
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+            transition: opacity 0.3s ease;
+            user-select: none;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .lightbox-nav:hover {
+            opacity: 0.7;
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        .lightbox-nav.prev {
+            left: 30px;
+        }
+        
+        .lightbox-nav.next {
+            right: 30px;
+        }
+        
+        .lightbox-nav.hidden {
+            display: none;
+        }
+        
         /* Mobile optimizations */
         @media (max-width: 768px) {
             .gallery-slider {
@@ -154,6 +192,20 @@
                 top: 10px;
                 right: 20px;
                 font-size: 30px;
+            }
+            
+            .lightbox-nav {
+                font-size: 40px;
+                width: 50px;
+                height: 50px;
+            }
+            
+            .lightbox-nav.prev {
+                left: 15px;
+            }
+            
+            .lightbox-nav.next {
+                right: 15px;
             }
         }
         
@@ -233,6 +285,8 @@
             <!-- Image Lightbox -->
             <div class="image-lightbox" id="image-lightbox">
                 <span class="lightbox-close" id="lightbox-close">&times;</span>
+                <div class="lightbox-nav prev" id="lightbox-prev">‹</div>
+                <div class="lightbox-nav next" id="lightbox-next">›</div>
                 <img class="lightbox-image" id="lightbox-image" src="" alt="Expanded Product Image">
             </div>
 

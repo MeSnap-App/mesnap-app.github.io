@@ -16,6 +16,7 @@ let currentQuantity = 1;
 // Gallery State
 let currentGalleryIndex = 0;
 let currentGalleryImages = [];
+let currentLightboxIndex = 0;
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -678,7 +679,7 @@ function loadGallerySlider() {
             // Add click handler
             slide.addEventListener('click', () => {
                 setActiveSlide(index);
-                openLightbox(imageUrl, `${selectedProduct.name} - Image ${index + 1}`);
+                openLightbox(index);
             });
             
             sliderContainer.appendChild(slide);
@@ -743,6 +744,8 @@ function setActiveSlide(index) {
 function initLightbox() {
     const lightbox = document.getElementById('image-lightbox');
     const closeBtn = document.getElementById('lightbox-close');
+    const prevBtn = document.getElementById('lightbox-prev');
+    const nextBtn = document.getElementById('lightbox-next');
     
     if (!lightbox || !closeBtn) return;
     
@@ -753,10 +756,38 @@ function initLightbox() {
         }
     });
     
-    // Close lightbox on Escape key
+    // Navigation button event listeners
+    if (prevBtn) {
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navigateLightbox(-1);
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navigateLightbox(1);
+        });
+    }
+    
+    // Keyboard navigation
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            closeLightbox();
+        const lightbox = document.getElementById('image-lightbox');
+        if (lightbox && lightbox.classList.contains('active')) {
+            switch(e.key) {
+                case 'Escape':
+                    closeLightbox();
+                    break;
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    navigateLightbox(-1);
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    navigateLightbox(1);
+                    break;
+            }
         }
     });
     
@@ -769,20 +800,60 @@ function initLightbox() {
     }
 }
 
-function openLightbox(imageUrl, altText) {
+function openLightbox(imageIndex) {
+    if (!currentGalleryImages || currentGalleryImages.length === 0) return;
+    
+    currentLightboxIndex = imageIndex;
+    
     const lightbox = document.getElementById('image-lightbox');
     const lightboxImage = document.getElementById('lightbox-image');
+    const prevBtn = document.getElementById('lightbox-prev');
+    const nextBtn = document.getElementById('lightbox-next');
     
     if (!lightbox || !lightboxImage) return;
     
-    lightboxImage.src = imageUrl;
-    lightboxImage.alt = altText;
+    // Set image
+    lightboxImage.src = currentGalleryImages[imageIndex];
+    lightboxImage.alt = `${selectedProduct.name} - Image ${imageIndex + 1}`;
+    
+    // Show/hide navigation arrows based on image count
+    const showNavigation = currentGalleryImages.length > 1;
+    if (prevBtn) prevBtn.classList.toggle('hidden', !showNavigation);
+    if (nextBtn) nextBtn.classList.toggle('hidden', !showNavigation);
+    
     lightbox.classList.add('active');
     
     // Prevent body scrolling when lightbox is open
     document.body.style.overflow = 'hidden';
     
-    console.log('Opened lightbox for:', altText);
+    console.log(`Opened lightbox for image ${imageIndex + 1} of ${currentGalleryImages.length}`);
+}
+
+function navigateLightbox(direction) {
+    if (!currentGalleryImages || currentGalleryImages.length <= 1) return;
+    
+    let newIndex = currentLightboxIndex + direction;
+    
+    // Wrap around navigation
+    if (newIndex < 0) {
+        newIndex = currentGalleryImages.length - 1;
+    } else if (newIndex >= currentGalleryImages.length) {
+        newIndex = 0;
+    }
+    
+    currentLightboxIndex = newIndex;
+    
+    // Update lightbox image
+    const lightboxImage = document.getElementById('lightbox-image');
+    if (lightboxImage) {
+        lightboxImage.src = currentGalleryImages[newIndex];
+        lightboxImage.alt = `${selectedProduct.name} - Image ${newIndex + 1}`;
+    }
+    
+    // Update gallery slider to match
+    setActiveSlide(newIndex);
+    
+    console.log(`Navigated to lightbox image ${newIndex + 1} of ${currentGalleryImages.length}`);
 }
 
 function closeLightbox() {
