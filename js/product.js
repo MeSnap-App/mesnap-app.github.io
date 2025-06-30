@@ -1,7 +1,15 @@
 // Product Page JavaScript
 
+// Supabase Configuration
+const SUPABASE_URL = 'https://xbqrmfsezvyxfdhfgele.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhicXJtZnNlenZ5eGZkaGZnZWxlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTEyNDMyOTcsImV4cCI6MjA2NjgxOTI5N30.IKJj9b-jM6SNwZ2VB21Ur92LsEwOFvyJ_IiXhIeAmbM';
+
+// Initialize Supabase client
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 // Product Data
-let productData = null;
+let productData = [];
+let selectedProduct = null;
 let selectedColor = 'Mango Yellow'; // Default to yellow
 let currentQuantity = 1;
 
@@ -10,25 +18,41 @@ document.addEventListener('DOMContentLoaded', () => {
     // Make sure logo links to home page
     setupNavigation();
 
+    // Initialize model viewer immediately (independent of database)
+    initModelViewer();
+
     // Load product data
-    loadProductData().then(() => {
-        // Initialize product viewer
-        initModelViewer();
+    loadProductData().then((data) => {
+        if (data) {
+            // Initialize color selection
+            initColorSelection();
 
-        // Initialize color selection
-        initColorSelection();
+            // Apply initial color to model after everything is set up
+            setTimeout(() => {
+                if (selectedProduct) {
+                    updateModelColor(selectedProduct.colour_name);
+                }
+            }, 100);
 
-        // Initialize quantity controls
-        initQuantityControls();
+            // Initialize quantity controls
+            initQuantityControls();
 
-        // Add to cart button
-        initAddToCart();
+            // Add to cart button
+            initAddToCart();
 
-        // Buy now button
-        initBuyNow();
+            // Buy now button
+            initBuyNow();
 
-        // Initialize related products
-        initRelatedProducts();
+            // Initialize related products
+            initRelatedProducts();
+        } else {
+            console.error('Failed to load product data - using fallback mode');
+            // Initialize basic functionality without database
+            initQuantityControls();
+            // Show fallback price
+            const currentPrice = document.getElementById('current-price');
+            if (currentPrice) currentPrice.textContent = '£14.95';
+        }
     });
 });
 
@@ -63,6 +87,8 @@ function initModelViewer() {
 
         // Position the model using the tweakable parameters
         positionModel(modelViewer, params);
+
+        // Initial material properties will be applied after data loads via updateModelColor()
 
         // Mark as loaded
         modelViewer.classList.add('loaded');
@@ -168,31 +194,25 @@ function setupProgressBar(modelViewer) {
     });
 }
 
-// Update model to selected color by changing material color
+// Update model to selected color by changing material color using Supabase data
 function updateModelColor(colorName) {
     const modelViewer = document.getElementById('product-model-viewer');
     if (!modelViewer || !productData) return;
 
-    // Find color info
-    const colorInfo = productData.colors.find(c => c.name.toLowerCase() === colorName.toLowerCase());
-    if (!colorInfo) return;
+    // Find product info from Supabase data
+    const product = productData.find(p => p.colour_name.toLowerCase() === colorName.toLowerCase());
+    if (!product) return;
 
     console.log(`Updating model to color: ${colorName}`);
 
-    // Store the selected color info globally for cart access
-    window.selectedColorInfo = colorInfo;
+    // Store the selected product globally for cart access
+    window.selectedProductInfo = product;
+    selectedProduct = product;
 
-    // Color mapping for different MeSnap colors
-    const colorMap = {
-        'mango yellow': '#FFEB3B',
-        'matcha green': '#4CAF50', 
-        'strawberry pink': '#FFC0CB',
-        'eco grey': '#c4bfbf',
-        'white': '#FFFFFF',
-        'black': '#000000'
-    };
-
-    const colorHex = colorMap[colorName.toLowerCase()] || '#FFEB3B';
+    // Get color hex from database (3d_model_hex for the actual 3D model color)
+    const colorHex = `#${product['3d_model_hex']}`;
+    const metalness = product['3d_model_metalness'] || 0.7;
+    const roughness = product['3d_model_roughness'] || 0.5;
 
     // Function to change model color
     function changeModelColor() {
@@ -200,7 +220,9 @@ function updateModelColor(colorName) {
             const [material] = modelViewer.model.materials;
             if (material && material.pbrMetallicRoughness) {
                 material.pbrMetallicRoughness.setBaseColorFactor(colorHex);
-                console.log(`Applied color ${colorHex} to model for ${colorName}`);
+                material.pbrMetallicRoughness.setMetallicFactor(metalness);
+                material.pbrMetallicRoughness.setRoughnessFactor(roughness);
+                console.log(`Applied color ${colorHex}, metalness ${metalness}, roughness ${roughness} to model for ${colorName}`);
             }
         }
     }
@@ -216,60 +238,80 @@ function updateModelColor(colorName) {
     }
 }
 
-// Get default color from product data
+// Get default color from product data (first product in array)
 function getDefaultColor() {
-    if (!productData || !productData.colors) return 'Mango Yellow';
+    if (!productData || productData.length === 0) return 'Mango Yellow';
 
-    const defaultColor = productData.colors.find(c => c.default);
-    return defaultColor ? defaultColor.name : 'Mango Yellow';
+    return productData[0].colour_name;
 }
 
-// Color Selection
+// Color Selection - Now dynamically generated from Supabase data
 function initColorSelection() {
-    const colorOptions = document.querySelectorAll('.color-option');
+    if (!productData || productData.length === 0) return;
+
+    const colorOptionsContainer = document.querySelector('.color-options');
     const selectedColorText = document.querySelector('#selected-color span');
 
-    // Find the default color from product data
-    const defaultColorName = getDefaultColor();
+    if (!colorOptionsContainer) return;
 
-    colorOptions.forEach(option => {
-        option.addEventListener('click', () => {
+    // Clear existing color options
+    colorOptionsContainer.innerHTML = '';
+
+    // Generate color options from database
+    productData.forEach(product => {
+        const colorOption = document.createElement('button');
+        colorOption.className = 'color-option';
+        colorOption.setAttribute('data-color', product.colour_name.toLowerCase().replace(/\s+/g, '_'));
+        colorOption.style.backgroundColor = `#${product.colour_hex}`;
+
+        // Add border for white color for visibility
+        if (product.colour_hex.toLowerCase() === 'ffffff') {
+            colorOption.style.border = '1px solid #ddd';
+        }
+
+        const colorName = document.createElement('span');
+        colorName.className = 'color-name';
+        colorName.textContent = product.colour_name;
+        colorOption.appendChild(colorName);
+
+        // Add click event listener
+        colorOption.addEventListener('click', () => {
             // Remove selected class from all options
-            colorOptions.forEach(opt => opt.classList.remove('selected'));
+            document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('selected'));
 
             // Add selected class to clicked option
-            option.classList.add('selected');
-
-            // Get color name
-            const colorName = option.querySelector('.color-name').textContent;
+            colorOption.classList.add('selected');
 
             // Update selected color display
             if (selectedColorText) {
-                selectedColorText.textContent = colorName;
+                selectedColorText.textContent = product.colour_name;
             }
 
-            // Update selected color state
-            selectedColor = colorName;
+            // Update selected color state and product
+            selectedColor = product.colour_name;
+            selectedProduct = product;
 
             // Update 3D model color
-            updateModelColor(colorName);
+            updateModelColor(product.colour_name);
 
             // Update stock status
             updateStockStatus();
 
-            // Update price display with color-specific price
+            // Update price display
             updatePriceDisplay();
         });
+
+        colorOptionsContainer.appendChild(colorOption);
     });
 
-    // Set default selection
-    const defaultOption = document.querySelector(`.color-option[data-color="${defaultColorName.toLowerCase()}"]`);
-    if (defaultOption) {
-        defaultOption.classList.add('selected');
-        selectedColor = defaultColorName;
-
-        if (selectedColorText) {
-            selectedColorText.textContent = defaultColorName;
+    // Set default selection (first product or previously selected)
+    if (selectedProduct) {
+        const defaultOption = document.querySelector(`.color-option[data-color="${selectedProduct.colour_name.toLowerCase().replace(/\s+/g, '_')}"]`);
+        if (defaultOption) {
+            defaultOption.classList.add('selected');
+            if (selectedColorText) {
+                selectedColorText.textContent = selectedProduct.colour_name;
+            }
         }
     }
 }
@@ -323,25 +365,23 @@ function initAddToCart() {
     if (!addToCartBtn) return;
 
     addToCartBtn.addEventListener('click', () => {
-        if (!productData) return;
+        if (!selectedProduct) return;
 
-        // Get the selected color info for price_id and color-specific price
-        const colorInfo = window.selectedColorInfo ||
-            productData.colors.find(c => c.name.toLowerCase() === selectedColor.toLowerCase());
-
-        // Create color-specific image path for the cart
-        const colorFileName = selectedColor.toLowerCase().replace(/\s+/g, '_');
-        const colorImage = `../images/shopping_cart_images/${colorFileName}.png`;
+        // Get image from Supabase data (assuming images field has cart image)
+        let cartImage = '../images/product-solo.png'; // fallback
+        if (selectedProduct.images && selectedProduct.images.cart) {
+            cartImage = selectedProduct.images.cart;
+        }
 
         const product = {
-            id: productData.id,
-            name: productData.name,
-            color: selectedColor,
+            id: selectedProduct.id,
+            name: selectedProduct.name,
+            color: selectedProduct.colour_name,
             quantity: currentQuantity,
-            price: colorInfo ? colorInfo.price : productData.price, // Use color-specific price if available
-            currency: productData.currency,
-            image: colorImage, // Use color-specific image
-            price_id: colorInfo ? colorInfo.price_id : null // Include price_id for Stripe
+            price: selectedProduct.price,
+            currency: selectedProduct.currency,
+            image: cartImage,
+            price_id: selectedProduct.stripe_price_id
         };
 
         // Add to cart
@@ -359,25 +399,23 @@ function initBuyNow() {
     if (!buyNowBtn) return;
 
     buyNowBtn.addEventListener('click', () => {
-        if (!productData) return;
+        if (!selectedProduct) return;
 
-        // Get the selected color info for price_id and color-specific price
-        const colorInfo = window.selectedColorInfo ||
-            productData.colors.find(c => c.name.toLowerCase() === selectedColor.toLowerCase());
-
-        // Create color-specific image path for the cart
-        const colorFileName = selectedColor.toLowerCase().replace(/\s+/g, '_');
-        const colorImage = `../images/shopping_cart_images/${colorFileName}.png`;
+        // Get image from Supabase data (assuming images field has cart image)
+        let cartImage = '../images/product-solo.png'; // fallback
+        if (selectedProduct.images && selectedProduct.images.cart) {
+            cartImage = selectedProduct.images.cart;
+        }
 
         const product = {
-            id: productData.id,
-            name: productData.name,
-            color: selectedColor,
+            id: selectedProduct.id,
+            name: selectedProduct.name,
+            color: selectedProduct.colour_name,
             quantity: currentQuantity,
-            price: colorInfo ? colorInfo.price : productData.price, // Use color-specific price if available
-            currency: productData.currency,
-            image: colorImage, // Use color-specific image
-            price_id: colorInfo ? colorInfo.price_id : null // Include price_id for Stripe
+            price: selectedProduct.price,
+            currency: selectedProduct.currency,
+            image: cartImage,
+            price_id: selectedProduct.stripe_price_id
         };
 
         // Add to cart
@@ -388,8 +426,8 @@ function initBuyNow() {
     });
 }
 
-// Load Product Data
-function loadProductData() {
+// Load Product Data from Supabase
+async function loadProductData() {
     // Update price display with loading state
     const currentPrice = document.getElementById('current-price');
     const originalPrice = document.getElementById('original-price');
@@ -399,98 +437,97 @@ function loadProductData() {
     if (originalPrice) originalPrice.style.display = 'none';
     if (discountBadge) discountBadge.style.display = 'none';
 
-    return window.MeSnap.getProductData()
-        .then(data => {
-            productData = data.products[0];
+    try {
+        // Fetch products from Supabase
+        const { data, error } = await supabase
+            .from('products')
+            .select('*')
+            .eq('is_active', true)
+            .order('sort_order', { ascending: true });
 
-            // Update price display
-            updatePriceDisplay();
+        if (error) {
+            throw error;
+        }
 
-            // Update stock status
-            updateStockStatus();
+        if (!data || data.length === 0) {
+            throw new Error('No products found');
+        }
 
-            return productData;
-        })
-        .catch(error => {
-            console.error('Error loading product data:', error);
+        productData = data;
 
-            // Show a fallback price
-            if (currentPrice) currentPrice.textContent = '£14.95';
+        // Set the first product as selected (or find default)
+        selectedProduct = productData.find(p => p.colour_name.toLowerCase() === selectedColor.toLowerCase()) || productData[0];
 
-            return null;
-        });
+        if (selectedProduct) {
+            selectedColor = selectedProduct.colour_name;
+            console.log('Selected product:', selectedProduct);
+        }
+
+        console.log('Loaded products from Supabase:', productData);
+
+        // Update price display
+        updatePriceDisplay();
+
+        // Update stock status
+        updateStockStatus();
+
+        return productData;
+
+    } catch (error) {
+        console.error('Error loading product data from Supabase:', error);
+
+        // Show a fallback price
+        if (currentPrice) currentPrice.textContent = '£14.95';
+
+        return null;
+    }
 }
 
-// Update price display based on product data and selected color
+// Update price display based on selected product from Supabase
 function updatePriceDisplay() {
-    if (!productData) return;
+    if (!selectedProduct) return;
 
     const currentPrice = document.getElementById('current-price');
     const originalPrice = document.getElementById('original-price');
     const discountBadge = document.getElementById('discount-badge');
 
-    // Get the selected color info to display its specific price
-    const colorInfo = window.selectedColorInfo ||
-        productData.colors.find(c => c.name.toLowerCase() === selectedColor.toLowerCase());
-
-    // Get the appropriate price (color-specific or default product price)
-    const priceToDisplay = colorInfo && colorInfo.price ? colorInfo.price : productData.price;
-
     if (currentPrice) {
-        currentPrice.textContent = window.MeSnap.formatCurrency(priceToDisplay, productData.currency);
+        currentPrice.textContent = `${selectedProduct.currency}${selectedProduct.price.toFixed(2)}`;
     }
 
-    // Check if there's a discount
-    if (window.MeSnap.hasDiscount(productData)) {
-        const discountInfo = window.MeSnap.getDiscountInfo(productData);
-
-        if (originalPrice) {
-            originalPrice.textContent = discountInfo.originalPrice;
-            originalPrice.style.display = 'inline';
-        }
-
-        if (discountBadge) {
-            discountBadge.textContent = discountInfo.discountLabel;
-            discountBadge.style.display = 'block';
-        }
-    } else {
-        if (originalPrice) originalPrice.style.display = 'none';
-        if (discountBadge) discountBadge.style.display = 'none';
-    }
+    // For now, hide discount elements (can be enhanced later with discount logic)
+    if (originalPrice) originalPrice.style.display = 'none';
+    if (discountBadge) discountBadge.style.display = 'none';
 }
 
-// Update Stock Status
+// Update Stock Status based on selected product from Supabase
 function updateStockStatus() {
-    if (!productData) return;
+    if (!selectedProduct) return;
 
     const stockStatus = document.getElementById('stock-status');
     if (!stockStatus) return;
 
-    const colorInfo = productData.colors.find(c => c.name === selectedColor);
+    const stock = selectedProduct.stock;
 
-    if (colorInfo) {
-        const stock = colorInfo.stock;
+    if (stock > 10) {
+        stockStatus.textContent = 'In Stock';
+        stockStatus.style.color = 'var(--success)';
+    } else if (stock > 0) {
+        stockStatus.textContent = `Only ${stock} left in stock`;
+        stockStatus.style.color = 'var(--warning)';
+    } else {
+        stockStatus.textContent = 'Out of Stock';
+        stockStatus.style.color = 'var(--error)';
+    }
 
-        if (stock > 10) {
-            stockStatus.textContent = 'In Stock';
-            stockStatus.style.color = 'var(--success)';
-        } else if (stock > 0) {
-            stockStatus.textContent = `Only ${stock} left in stock`;
-            stockStatus.style.color = 'var(--warning)';
-        } else {
-            stockStatus.textContent = 'Out of Stock';
-            stockStatus.style.color = 'var(--error)';
-        }
+    // Update max quantity
+    const quantityInput = document.getElementById('quantity');
+    if (quantityInput) {
+        quantityInput.max = Math.min(10, stock);
 
-        // Update max quantity
-        const quantityInput = document.getElementById('quantity');
-        if (quantityInput) {
-            quantityInput.max = Math.min(10, stock);
-
-            if (currentQuantity > stock) {
-                currentQuantity = stock > 0 ? stock : 1;
-                quantityInput.value = currentQuantity;
-            }
+        if (currentQuantity > stock) {
+            currentQuantity = stock > 0 ? stock : 1;
+            quantityInput.value = currentQuantity;
         }
     }
 }

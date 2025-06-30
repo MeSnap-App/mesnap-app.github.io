@@ -68,10 +68,10 @@
                 <p class="product-tagline">MagSafe Compatible with NFC Technology</p>
 
                 <div class="product-price-container">
-                    <div class="discount-badge" id="discount-badge">25% Off</div>
+                    <div class="discount-badge" id="discount-badge" style="display: none;"></div>
                     <div class="product-price-wrapper">
-                        <span class="original-price" id="original-price">£19.95</span>
-                        <span class="current-price" id="current-price">£14.95</span>
+                        <span class="original-price" id="original-price" style="display: none;"></span>
+                        <span class="current-price" id="current-price">Loading...</span>
                     </div>
                 </div>
 
@@ -79,27 +79,7 @@
                     <div class="color-selection">
                         <h3>Select Color:</h3>
                         <div class="color-options">
-                            <button class="color-option" data-color="mango_yellow" style="background-color: #FFEB3B;">
-                                <span class="color-name">Mango Yellow</span>
-                            </button>
-                            <button class="color-option" data-color="matcha_green" style="background-color: #4CAF50;">
-                                <span class="color-name">Matcha Green</span>
-                            </button>
-                            <button class="color-option" data-color="strawberry_pink"
-                                style="background-color: #FFC0CB;">
-                                <span class="color-name">Strawberry Pink</span>
-                            </button>
-                            <button class="color-option" data-color="eco grey" style="background-color: #c4bfbf;">
-                                <span class="color-name">Eco Grey</span>
-                            </button>
-                            <button class="color-option" data-color="white"
-                                style="background-color: #FFFFFF; border: 1px solid #ddd;">
-                                <span class="color-name">White</span>
-                            </button>
-                            <button class="color-option" data-color="black" style="background-color: #000000;">
-                                <span class="color-name">Black</span>
-                            </button>
-
+                            <!-- Color options will be dynamically populated from Supabase -->
                         </div>
                         <p id="selected-color">Selected: <span>Mango Yellow</span></p>
                     </div>
@@ -175,6 +155,9 @@
 
     <!-- Model Viewer library -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <!-- Model positioning script -->
     <script>
