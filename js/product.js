@@ -168,7 +168,7 @@ function setupProgressBar(modelViewer) {
     });
 }
 
-// Update model to selected color by loading appropriate GLB file
+// Update model to selected color by changing material color
 function updateModelColor(colorName) {
     const modelViewer = document.getElementById('product-model-viewer');
     if (!modelViewer || !productData) return;
@@ -182,48 +182,38 @@ function updateModelColor(colorName) {
     // Store the selected color info globally for cart access
     window.selectedColorInfo = colorInfo;
 
-    // Get model parameters
-    const params = getModelParams();
+    // Color mapping for different MeSnap colors
+    const colorMap = {
+        'mango yellow': '#FFEB3B',
+        'matcha green': '#4CAF50', 
+        'strawberry pink': '#FFC0CB',
+        'eco grey': '#c4bfbf',
+        'white': '#FFFFFF',
+        'black': '#000000'
+    };
 
-    // Convert color name to file name format (lowercase and replace spaces with underscores)
-    const colorFileName = colorName.toLowerCase().replace(/\s+/g, '_');
+    const colorHex = colorMap[colorName.toLowerCase()] || '#FFEB3B';
 
-    // Construct the file path for the specific color model
-    const modelPath = `../models/mesnap_${colorFileName}.glb`;
-
-    // Remember current camera position and rotation
-    const currentOrbit = modelViewer.getCameraOrbit();
-    const currentZoom = modelViewer.getFieldOfView();
-
-    // Update the model path
-    modelViewer.src = modelPath;
-
-    // After the model is loaded, restore camera position and rotation and apply positioning
-    modelViewer.addEventListener('load', () => {
-        // Restore camera settings
-        modelViewer.cameraOrbit = currentOrbit;
-        modelViewer.fieldOfView = currentZoom;
-
-        // Position model with a bit of delay to ensure correct application
-        setTimeout(() => {
-            positionModel(modelViewer, params);
-        }, 50);
-
-        // Mark as loaded
-        modelViewer.classList.add('loaded');
-
-        console.log(`Loaded model for ${colorName} and applying params: scale=${params.scale}`);
-    }, { once: true });
-
-    // Handle load errors
-    modelViewer.addEventListener('error', () => {
-        console.error(`Failed to load model for color: ${colorName}`);
-        // If specific color model fails, fallback to yellow
-        if (colorFileName !== 'yellow') {
-            console.log('Falling back to default yellow model');
-            modelViewer.src = '../models/mesnap_mango_yellow.glb';
+    // Function to change model color
+    function changeModelColor() {
+        if (modelViewer.model && modelViewer.model.materials.length > 0) {
+            const [material] = modelViewer.model.materials;
+            if (material && material.pbrMetallicRoughness) {
+                material.pbrMetallicRoughness.setBaseColorFactor(colorHex);
+                console.log(`Applied color ${colorHex} to model for ${colorName}`);
+            }
         }
-    }, { once: true });
+    }
+
+    // If model is already loaded, change color immediately
+    if (modelViewer.model) {
+        changeModelColor();
+    } else {
+        // Wait for model to load before accessing materials
+        modelViewer.addEventListener('load', () => {
+            setTimeout(changeModelColor, 100); // Small delay to ensure materials are ready
+        }, { once: true });
+    }
 }
 
 // Get default color from product data
