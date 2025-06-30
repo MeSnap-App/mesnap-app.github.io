@@ -631,6 +631,9 @@ function showConfirmation(message) {
 
 // Gallery Slider Functions
 function initGalleryViewer() {
+    // Initialize lightbox functionality
+    initLightbox();
+    
     // Load gallery images for current product
     loadGallerySlider();
 }
@@ -675,6 +678,7 @@ function loadGallerySlider() {
             // Add click handler
             slide.addEventListener('click', () => {
                 setActiveSlide(index);
+                openLightbox(imageUrl, `${selectedProduct.name} - Image ${index + 1}`);
             });
             
             sliderContainer.appendChild(slide);
@@ -733,4 +737,63 @@ function setActiveSlide(index) {
     }
 
     console.log(`Active slide: ${index + 1} of ${currentGalleryImages.length}`);
+}
+
+// Lightbox Functions
+function initLightbox() {
+    const lightbox = document.getElementById('image-lightbox');
+    const closeBtn = document.getElementById('lightbox-close');
+    
+    if (!lightbox || !closeBtn) return;
+    
+    // Close lightbox when clicking background or close button
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox || e.target === closeBtn) {
+            closeLightbox();
+        }
+    });
+    
+    // Close lightbox on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeLightbox();
+        }
+    });
+    
+    // Prevent lightbox image from closing lightbox when clicked
+    const lightboxImage = document.getElementById('lightbox-image');
+    if (lightboxImage) {
+        lightboxImage.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    }
+}
+
+function openLightbox(imageUrl, altText) {
+    const lightbox = document.getElementById('image-lightbox');
+    const lightboxImage = document.getElementById('lightbox-image');
+    
+    if (!lightbox || !lightboxImage) return;
+    
+    lightboxImage.src = imageUrl;
+    lightboxImage.alt = altText;
+    lightbox.classList.add('active');
+    
+    // Prevent body scrolling when lightbox is open
+    document.body.style.overflow = 'hidden';
+    
+    console.log('Opened lightbox for:', altText);
+}
+
+function closeLightbox() {
+    const lightbox = document.getElementById('image-lightbox');
+    
+    if (!lightbox) return;
+    
+    lightbox.classList.remove('active');
+    
+    // Restore body scrolling
+    document.body.style.overflow = '';
+    
+    console.log('Closed lightbox');
 }
