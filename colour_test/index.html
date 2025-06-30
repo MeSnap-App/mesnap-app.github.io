@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Model Color Picker</title>
+    <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .preview-container {
+            padding: 20px;
+        }
+
+        .product-view-container {
+            position: relative;
+            background: #f8f9fa;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 500px;
+            background-color: #E3F2FD;
+        }
+
+        /* Option 1: Glass-style buttons */
+        .controls.glass {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .controls.glass button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .controls.glass button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Option 2: Bottom bar style */
+        .controls.bottom-bar {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 25px;
+            padding: 10px 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .controls.bottom-bar button {
+            width: 35px;
+            height: 35px;
+            border: 2px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .controls.bottom-bar button:hover {
+            transform: scale(1.2);
+            border-width: 3px;
+        }
+
+        /* Option 3: Side panel style */
+        .controls.side-panel {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .controls.side-panel button {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .controls.side-panel button:hover {
+            transform: translateX(5px);
+            border-color: #333;
+        }
+
+        .controls.side-panel button.active {
+            border-color: #007bff;
+            transform: translateX(5px);
+        }
+
+        .custom-ar-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 20px auto;
+            display: block;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .custom-ar-button:hover {
+            background: #0056b3;
+        }
+
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .update-bar {
+            height: 100%;
+            background: #007bff;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .preview-fallback {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: none;
+        }
+
+        .color-label {
+            font-size: 12px;
+            margin-top: 5px;
+            text-align: center;
+            color: #666;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+
+            .controls.glass,
+            .controls.side-panel {
+                position: static;
+                transform: none;
+                margin: 20px auto;
+                width: fit-content;
+            }
+
+            .controls.glass {
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .controls.side-panel {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>MeSnap ID Card Holder - Color Customization</h1>
+            <p>Choose from multiple color picker styles and customize your 3D model</p>
+        </div>
+
+        <div class="preview-container">
+            <div class="product-view-container">
+                <!-- Option 1: Glass-style color picker (top-right) -->
+                <model-viewer id="product-model-viewer" src="mesnap_mango_yellow.glb"
+                    alt="MeSnap ID Card Holder 3D Model" camera-controls disable-pan auto-rotate
+                    background-color="#E3F2FD" camera-orbit="0deg 90deg 4m" field-of-view="25deg"
+                    interaction-prompt="none" ar ar-modes="webxr scene-viewer quick-look" ar-scale="0.00005"
+                    ar-placement="floor" scale="0.01 0.01 0.01" interpolation-decay="200">
+
+                    <!-- Model parameters -->
+                    <span id="model-params" data-scale="0.01" data-move-back="8" data-move-up="0.2"
+                        style="display:none;"></span>
+
+                    <!-- Loading progress bar -->
+                    <div class="progress-bar hide" slot="progress-bar">
+                        <div class="update-bar"></div>
+                    </div>
+                </model-viewer>
+
+                <!-- OPTION 1: Glass-style controls (default) -->
+                <div class="controls glass" id="color-controls-glass">
+                    <button data-color="#ff4757" style="background-color: #ff4757;" title="Red"></button>
+                    <button data-color="#2ed573" style="background-color: #2ed573;" title="Green"></button>
+                    <button data-color="#3742fa" style="background-color: #3742fa;" title="Blue"></button>
+                    <button data-color="#ffa502" style="background-color: #ffa502;" title="Orange"></button>
+                    <button data-color="#a55eea" style="background-color: #a55eea;" title="Purple"></button>
+                    <button data-color="#26de81" style="background-color: #26de81;" title="Mint"></button>
+                </div>
+
+                <!-- OPTION 2: Bottom bar controls (uncomment to use) -->
+                <!--
+                <div class="controls bottom-bar" id="color-controls-bottom">
+                    <button data-color="#ff4757" style="background-color: #ff4757;" title="Red"></button>
+                    <button data-color="#2ed573" style="background-color: #2ed573;" title="Green"></button>
+                    <button data-color="#3742fa" style="background-color: #3742fa;" title="Blue"></button>
+                    <button data-color="#ffa502" style="background-color: #ffa502;" title="Orange"></button>
+                    <button data-color="#a55eea" style="background-color: #a55eea;" title="Purple"></button>
+                    <button data-color="#26de81" style="background-color: #26de81;" title="Mint"></button>
+                </div>
+                -->
+
+                <!-- OPTION 3: Side panel controls (uncomment to use) -->
+                <!--
+                <div class="controls side-panel" id="color-controls-side">
+                    <button data-color="#ff4757" style="background-color: #ff4757;" title="Red"></button>
+                    <button data-color="#2ed573" style="background-color: #2ed573;" title="Green"></button>
+                    <button data-color="#3742fa" style="background-color: #3742fa;" title="Blue"></button>
+                    <button data-color="#ffa502" style="background-color: #ffa502;" title="Orange"></button>
+                    <button data-color="#a55eea" style="background-color: #a55eea;" title="Purple"></button>
+                    <button data-color="#26de81" style="background-color: #26de81;" title="Mint"></button>
+                </div>
+                -->
+
+                <!-- AR Button -->
+                <button id="ar-button" class="custom-ar-button">
+                    <span class="ar-icon">📱</span>
+                    View in AR
+                </button>
+
+                <!-- Fallback image -->
+                <img src="../images/product-solo.png" alt="MeSnap ID Card Holder" id="fallback-image"
+                    class="preview-fallback">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modelViewer = document.querySelector('#product-model-viewer');
+
+        // Function to change model color
+        function changeModelColor(colorString) {
+            // Wait for model to load before accessing materials
+            modelViewer.addEventListener('load', () => {
+                const [material] = modelViewer.model.materials;
+                if (material && material.pbrMetallicRoughness) {
+                    material.pbrMetallicRoughness.setBaseColorFactor(colorString);
+                }
+            });
+
+            // If model is already loaded, change color immediately
+            if (modelViewer.model && modelViewer.model.materials.length > 0) {
+                const [material] = modelViewer.model.materials;
+                if (material && material.pbrMetallicRoughness) {
+                    material.pbrMetallicRoughness.setBaseColorFactor(colorString);
+                }
+            }
+        }
+
+        // Add event listeners to all color control containers
+        document.querySelectorAll('.controls').forEach(controlContainer => {
+            controlContainer.addEventListener('click', (event) => {
+                if (event.target.dataset.color) {
+                    const colorString = event.target.dataset.color;
+
+                    // Remove active class from all buttons in this container
+                    controlContainer.querySelectorAll('button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+
+                    // Add active class to clicked button
+                    event.target.classList.add('active');
+
+                    // Change the model color
+                    changeModelColor(colorString);
+                }
+            });
+        });
+
+        // Handle AR button
+        document.getElementById('ar-button').addEventListener('click', () => {
+            if (modelViewer.canActivateAR) {
+                modelViewer.activateAR();
+            } else {
+                alert('AR is not supported on this device/browser');
+            }
+        });
+
+        // Handle model loading progress
+        modelViewer.addEventListener('progress', (event) => {
+            const progressBar = document.querySelector('.progress-bar');
+            const updateBar = document.querySelector('.update-bar');
+
+            if (event.detail.totalProgress === 1) {
+                progressBar.classList.add('hide');
+            } else {
+                progressBar.classList.remove('hide');
+                updateBar.style.width = `${event.detail.totalProgress * 100}%`;
+            }
+        });
+
+        // Fallback for browsers that don't support WebGL
+        modelViewer.addEventListener('error', () => {
+            document.getElementById('fallback-image').style.display = 'block';
+            modelViewer.style.display = 'none';
+        });
+
+        // Optional: Keyboard shortcuts for color changes
+        document.addEventListener('keydown', (event) => {
+            const colors = ['#ff4757', '#2ed573', '#3742fa', '#ffa502', '#a55eea', '#26de81'];
+            const key = event.key;
+
+            if (key >= '1' && key <= '6') {
+                const colorIndex = parseInt(key) - 1;
+                changeModelColor(colors[colorIndex]);
+
+                // Update active button visual feedback
+                document.querySelectorAll('.controls button').forEach((btn, index) => {
+                    btn.classList.toggle('active', index === colorIndex);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
