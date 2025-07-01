@@ -247,8 +247,7 @@
                         <model-viewer id="product-model-viewer" src="../models/mesnap.glb"
                             alt=" MeSnap ID Card Holder 3D Model" camera-controls disable-pan auto-rotate
                             background-color="#E3F2FD" camera-orbit="0deg 90deg 4m" field-of-view="25deg"
-                            interaction-prompt="none" ar ar-modes="webxr scene-viewer quick-look" ar-scale="0.00005"
-                            ar-placement="floor" scale="0.01 0.01 0.01" interpolation-decay="200">
+                            interaction-prompt="none" scale="0.01 0.01 0.01" interpolation-decay="200">
                             <!-- Model-position parameters that can be easily tweaked -->
                             <span id="model-params" data-scale="0.01" data-move-back="8" data-move-up="0.2"
                                 style="display:none;"></span>
@@ -258,11 +257,6 @@
                             </div>
                         </model-viewer>
 
-                        <!-- AR Button -->
-                        <button id="ar-button" class="custom-ar-button">
-                            <span class="ar-icon"></span>
-                            View in AR
-                        </button>
 
                         <!-- Fallback image (used if WebGL not supported) -->
                         <img src="../images/product-solo.png" alt="MeSnap ID Card Holder" id="fallback-image"
