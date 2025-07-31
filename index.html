@@ -5,8 +5,485 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MeSnap.App - Stylish ID Card Holders with MagSafe & NFC</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/home.css">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Gallery Styles -->
+    <style>
+        .gallery-slider-container {
+            margin: 30px 0;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .gallery-slider {
+            display: flex;
+            gap: 15px;
+            padding: 20px 0;
+            overflow-x: hidden;
+            animation: auto-scroll 30s linear infinite;
+        }
+
+        .gallery-slider:hover {
+            animation-play-state: paused;
+        }
+
+        /* Mobile scroll override */
+        @media (max-width: 768px) {
+            .gallery-slider {
+                overflow-x: auto;
+                animation: none;
+                scroll-behavior: smooth;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: thin;
+                scrollbar-color: #007bff #f1f1f1;
+            }
+
+            .gallery-slider::-webkit-scrollbar {
+                height: 8px;
+            }
+
+            .gallery-slider::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 10px;
+            }
+
+            .gallery-slider::-webkit-scrollbar-thumb {
+                background: #007bff;
+                border-radius: 10px;
+            }
+
+            .gallery-slider::-webkit-scrollbar-thumb:hover {
+                background: #0056b3;
+            }
+        }
+
+        @keyframes auto-scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .gallery-slide {
+            flex: 0 0 auto;
+            width: 400px;
+            height: 400px;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-slide:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-slide:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Image Lightbox */
+        .image-lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+        .image-lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            opacity: 0.7;
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .gallery-slide {
+                width: 300px;
+                height: 300px;
+            }
+
+            .lightbox-image {
+                max-width: 95%;
+                max-height: 95%;
+            }
+
+            .lightbox-close {
+                top: 20px;
+                right: 30px;
+                font-size: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-slide {
+                width: 240px;
+                height: 240px;
+            }
+
+            .gallery-slider {
+                gap: 10px;
+            }
+        }
+
+        /* Enhanced Feature Card Animations */
+        .features {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .features::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        .feature-card {
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(0, 123, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+            z-index: 1;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(0, 123, 255, 0.15);
+            border: 1px solid rgba(0, 123, 255, 0.2);
+        }
+
+        .feature-icon {
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+            font-size: 3rem;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: rotateY(360deg) scale(1.2);
+            text-shadow: 0 0 20px rgba(0, 123, 255, 0.5);
+        }
+
+        .feature-card h3 {
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover h3 {
+            color: #007bff;
+            transform: translateY(-2px);
+        }
+
+        .feature-card p {
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover p {
+            transform: translateY(-2px);
+        }
+
+        /* Staggered animation for feature grid */
+        .feature-grid {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Interactive pulse effect */
+        .feature-card:active {
+            transform: translateY(-10px) scale(0.98);
+        }
+
+        /* Floating animation for icons */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .feature-card:nth-child(1) .feature-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .feature-card:nth-child(2) .feature-icon {
+            animation: float 3s ease-in-out infinite 0.5s;
+        }
+
+        .feature-card:nth-child(3) .feature-icon {
+            animation: float 3s ease-in-out infinite 1s;
+        }
+
+        .feature-card:nth-child(4) .feature-icon {
+            animation: float 3s ease-in-out infinite 1.5s;
+        }
+
+        /* TikTok Section Styles */
+        .tiktok-section {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tiktok-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="0.5" fill="%23000" opacity="0.03"/><circle cx="75" cy="75" r="0.5" fill="%23000" opacity="0.03"/><circle cx="25" cy="75" r="0.5" fill="%23000" opacity="0.03"/><circle cx="75" cy="25" r="0.5" fill="%23000" opacity="0.03"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+        }
+
+        .tiktok-section h2 {
+            margin-bottom: 50px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tiktok-carousel-container {
+            position: relative;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .tiktok-carousel {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 20px 0;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .tiktok-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tiktok-video-container {
+            flex: 0 0 auto;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tiktok-video-container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .tiktok-embed {
+            border-radius: 15px !important;
+            overflow: hidden !important;
+        }
+
+        /* Navigation Buttons */
+        .tiktok-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .tiktok-nav-btn {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            pointer-events: all;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tiktok-nav-btn:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(1.1);
+        }
+
+        .tiktok-nav-btn.prev {
+            margin-left: -25px;
+        }
+
+        .tiktok-nav-btn.next {
+            margin-right: -25px;
+        }
+
+        /* Indicators */
+        .tiktok-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .tiktok-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tiktok-dot.active {
+            background: #007bff;
+            transform: scale(1.3);
+        }
+
+        .tiktok-dot:hover {
+            background: #007bff;
+            transform: scale(1.2);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .tiktok-section {
+                padding: 60px 15px;
+            }
+
+            .tiktok-carousel {
+                gap: 15px;
+                padding: 15px 0;
+            }
+
+            .tiktok-nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+
+            .tiktok-nav-btn.prev {
+                margin-left: -20px;
+            }
+
+            .tiktok-nav-btn.next {
+                margin-right: -20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tiktok-section h2 {
+                font-size: 1.8rem;
+            }
+
+            .section-subtitle {
+                font-size: 1rem;
+            }
+
+            .tiktok-carousel {
+                gap: 10px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -45,46 +522,11 @@
             </div>
         </section>
 
-        <section id="features" class="features">
-            <h2>Why Choose <span class="highlight">MeSnap</span>?</h2>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🧲</div>
-                    <h3>MagSafe Compatible</h3>
-                    <p>Securely attaches to your iPhone with built-in MagSafe magnets.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3>NFC Enabled</h3>
-                    <p>Share your contact details with a simple tap - no more typing numbers.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎨</div>
-                    <h3>7 Vibrant Colors</h3>
-                    <p>Express yourself with a range of colors to match your style.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔄</div>
-                    <h3>Versatile Use</h3>
-                    <p>Use with your phone or attach to a lanyard - your choice!</p>
-                </div>
-            </div>
-        </section>
-
         <section class="product-showcase">
             <h2>Designed for <span class="highlight">You</span></h2>
-            <div class="product-gallery">
-                <div class="gallery-image">
-                    <img src="images/product-phone.png" alt="MeSnap attached to phone">
-                    <p>Attaches seamlessly to your iPhone</p>
-                </div>
-                <div class="gallery-image">
-                    <img src="images/product-lanyard.png" alt="MeSnap on lanyard">
-                    <p>Works with any standard lanyard</p>
-                </div>
-                <div class="gallery-image">
-                    <img src="images/product-colors.png" alt="MeSnap color options">
-                    <p>Available in 7 stylish colors</p>
+            <div class="gallery-slider-container">
+                <div class="gallery-slider" id="home-gallery-slider">
+                    <!-- Gallery images will be dynamically loaded here -->
                 </div>
             </div>
             <div class="cta-center">
@@ -92,31 +534,115 @@
             </div>
         </section>
 
-        <section class="testimonials">
-            <h2>What Students are <span class="highlight">Saying</span></h2>
-            <div class="testimonial-slider">
-                <div class="testimonial">
-                    <p class="quote">"I love how I can switch between using it on my phone and on my lanyard. The NFC
-                        feature is so convenient for sharing my details!"</p>
-                    <p class="author">- Alex, Business Student</p>
+        <section id="features" class="features">
+            <h2>What is a <span class="highlight">MeSnap</span>?</h2>
+            <div class="feature-grid">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-icon">🧲</div>
+                    <h3>MagSafe Compatible</h3>
+                    <p>Securely attaches to your iPhone with built-in MagSafe magnets.</p>
                 </div>
-                <div class="testimonial">
-                    <p class="quote">"The MagSafe connection is super strong and the colors are vibrant. Perfect for
-                        campus life!"</p>
-                    <p class="author">- Jamie, Engineering Major</p>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon">📱</div>
+                    <h3>NFC Enabled</h3>
+                    <p>Share your contact details with a simple tap - no more typing numbers.</p>
                 </div>
-                <div class="testimonial">
-                    <p class="quote">"I get compliments on my MeSnap all the time. It's both practical and stylish!"</p>
-                    <p class="author">- Taylor, Art Student</p>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-icon">🎨</div>
+                    <h3>6 Unique Colors</h3>
+                    <p>Express yourself with a range of colors to match your style.</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Versatile Use</h3>
+                    <p>Use with your phone or attach to a lanyard - your choice!</p>
                 </div>
             </div>
-            <div class="slider-dots">
-                <span class="dot active"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
+        </section>
+
+        <section class="tiktok-section">
+            <div class="tiktok-carousel-container">
+                <div class="tiktok-carousel" id="tiktok-carousel">
+                    <!-- TikTok videos will be loaded here -->
+                    <div class="tiktok-video-container">
+                        <blockquote class="tiktok-embed"
+                            cite="https://www.tiktok.com/@mesnap.app/video/7524462523526008086"
+                            data-video-id="7524462523526008086" style="max-width: 325px; min-width: 325px;">
+                            <section>
+                                <a target="_blank" title="@mesnap.app"
+                                    href="https://www.tiktok.com/@mesnap.app?refer=embed">@mesnap.app</a>
+                                <p>How to use MeSnap with your phone 📱</p>
+                                <a target="_blank" title="♬ original sound"
+                                    href="https://www.tiktok.com/music/original-sound-placeholder">♬ original sound</a>
+                            </section>
+                        </blockquote>
+                    </div>
+
+                    <div class="tiktok-video-container">
+                        <blockquote class="tiktok-embed"
+                            cite="https://www.tiktok.com/@mesnap.app/video/7524696601844256002"
+                            data-video-id="7524696601844256002" style="max-width: 325px; min-width: 325px;">
+                            <section>
+                                <a target="_blank" title="@mesnap.app"
+                                    href="https://www.tiktok.com/@mesnap.app?refer=embed">@mesnap.app</a>
+                                <p>NFC sharing made easy ✨</p>
+                                <a target="_blank" title="♬ original sound"
+                                    href="https://www.tiktok.com/music/original-sound-placeholder">♬ original sound</a>
+                            </section>
+                        </blockquote>
+                    </div>
+
+                    <div class="tiktok-video-container">
+                        <blockquote class="tiktok-embed"
+                            cite="https://www.tiktok.com/@mesnap.app/video/7525857527368666390"
+                            data-video-id="7525857527368666390" style="max-width: 325px; min-width: 325px;">
+                            <section>
+                                <a target="_blank" title="@mesnap.app"
+                                    href="https://www.tiktok.com/@mesnap.app?refer=embed">@mesnap.app</a>
+                                <p>All the vibrant colors 🌈</p>
+                                <a target="_blank" title="♬ original sound"
+                                    href="https://www.tiktok.com/music/original-sound-placeholder">♬ original sound</a>
+                            </section>
+                        </blockquote>
+                    </div>
+
+                    <div class="tiktok-video-container">
+                        <blockquote class="tiktok-embed"
+                            cite="https://www.tiktok.com/@mesnap.app/video/7525192969054375190"
+                            data-video-id="7525192969054375190" style="max-width: 325px; min-width: 325px;">
+                            <section>
+                                <a target="_blank" title="@mesnap.app"
+                                    href="https://www.tiktok.com/@mesnap.app?refer=embed">@mesnap.app</a>
+                                <p>Perfect for students and professionals 🎓</p>
+                                <a target="_blank" title="♬ original sound"
+                                    href="https://www.tiktok.com/music/original-sound-placeholder">♬ original sound</a>
+                            </section>
+                        </blockquote>
+                    </div>
+                </div>
+
+                <!-- Carousel Navigation -->
+                <div class="tiktok-nav">
+                    <button class="tiktok-nav-btn prev" id="tiktok-prev">‹</button>
+                    <button class="tiktok-nav-btn next" id="tiktok-next">›</button>
+                </div>
+
+                <!-- Carousel Indicators -->
+                <div class="tiktok-indicators" id="tiktok-indicators">
+                    <span class="tiktok-dot active" data-slide="0"></span>
+                    <span class="tiktok-dot" data-slide="1"></span>
+                    <span class="tiktok-dot" data-slide="2"></span>
+                    <span class="tiktok-dot" data-slide="3"></span>
+                </div>
             </div>
         </section>
     </main>
+
+    <!-- Image Lightbox -->
+    <div class="image-lightbox" id="image-lightbox">
+        <span class="lightbox-close" id="lightbox-close">&times;</span>
+        <img class="lightbox-image" id="lightbox-image" src="" alt="Expanded Product Image">
+    </div>
 
     <footer>
         <div class="footer-content">
@@ -149,6 +675,188 @@
 
     <script src="js/main.js"></script>
     <script src="js/home.js"></script>
+
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- TikTok Embed Script -->
+    <script async src="https://www.tiktok.com/embed.js"></script>
+
+    <!-- Gallery Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const gallerySlider = document.getElementById('home-gallery-slider');
+            const lightbox = document.getElementById('image-lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            const lightboxClose = document.getElementById('lightbox-close');
+
+            // Number of gallery images (1.png to 18.png)
+            const totalImages = 18;
+
+            // Initialize gallery
+            function initGallery() {
+                // Clear existing content
+                gallerySlider.innerHTML = '';
+
+                // Create slides three times for better infinite scroll on mobile
+                for (let round = 0; round < 3; round++) {
+                    for (let i = 1; i <= totalImages; i++) {
+                        const slide = document.createElement('div');
+                        slide.className = 'gallery-slide';
+
+                        const img = document.createElement('img');
+                        img.src = `images/gallery/${i}.jpg`;
+                        img.alt = `Gallery Image ${i}`;
+                        img.loading = 'lazy';
+
+                        // Add click event for lightbox
+                        slide.addEventListener('click', () => openLightbox(`images/gallery/${i}.jpg`));
+
+                        slide.appendChild(img);
+                        gallerySlider.appendChild(slide);
+                    }
+                }
+
+                // Add infinite scroll for mobile
+                if (window.innerWidth <= 768) {
+                    setupInfiniteScroll();
+                }
+            }
+
+            // Setup infinite scroll for mobile
+            function setupInfiniteScroll() {
+                const singleSetWidth = gallerySlider.scrollWidth / 3; // Width of one complete set
+
+                gallerySlider.addEventListener('scroll', function () {
+                    const scrollLeft = gallerySlider.scrollLeft;
+                    const maxScroll = gallerySlider.scrollWidth - gallerySlider.clientWidth;
+
+                    // If scrolled to the end, jump back to the middle set
+                    if (scrollLeft >= maxScroll - 10) {
+                        gallerySlider.scrollLeft = singleSetWidth;
+                    }
+                    // If scrolled to the beginning, jump to the second set
+                    else if (scrollLeft <= 10) {
+                        gallerySlider.scrollLeft = singleSetWidth + scrollLeft;
+                    }
+                });
+
+                // Start in the middle set for seamless infinite scroll
+                gallerySlider.scrollLeft = singleSetWidth;
+            }
+
+            // Open lightbox
+            function openLightbox(imageSrc) {
+                lightboxImage.src = imageSrc;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            }
+
+            // Close lightbox
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+
+            // Event listeners for lightbox
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', function (e) {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+
+            // Close lightbox with Escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                    closeLightbox();
+                }
+            });
+
+            // Initialize the gallery
+            initGallery();
+
+            // Initialize AOS animations
+            AOS.init({
+                duration: 800,
+                easing: 'ease-out-cubic',
+                once: true,
+                offset: 100
+            });
+
+            // Initialize TikTok Carousel
+            initTikTokCarousel();
+        });
+
+        // TikTok Carousel Functionality
+        function initTikTokCarousel() {
+            const carousel = document.getElementById('tiktok-carousel');
+            const prevBtn = document.getElementById('tiktok-prev');
+            const nextBtn = document.getElementById('tiktok-next');
+            const indicators = document.querySelectorAll('.tiktok-dot');
+            const videos = document.querySelectorAll('.tiktok-video-container');
+
+            let currentIndex = 0;
+            const videoWidth = 345; // 325px video + 20px gap
+
+            // Navigation functions
+            function updateCarousel() {
+                const offset = currentIndex * videoWidth;
+                carousel.scrollTo({
+                    left: offset,
+                    behavior: 'smooth'
+                });
+
+                // Update indicators
+                indicators.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentIndex);
+                });
+            }
+
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % videos.length;
+                updateCarousel();
+            }
+
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + videos.length) % videos.length;
+                updateCarousel();
+            }
+
+            // Event listeners
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+
+            // Indicator clicks
+            indicators.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    currentIndex = index;
+                    updateCarousel();
+                });
+            });
+
+            // Auto-scroll for mobile
+            if (window.innerWidth <= 768) {
+                carousel.addEventListener('scroll', () => {
+                    const scrollLeft = carousel.scrollLeft;
+                    const newIndex = Math.round(scrollLeft / videoWidth);
+                    if (newIndex !== currentIndex) {
+                        currentIndex = newIndex;
+                        indicators.forEach((dot, index) => {
+                            dot.classList.toggle('active', index === currentIndex);
+                        });
+                    }
+                });
+            }
+
+            // Auto-play carousel (optional)
+            setInterval(() => {
+                if (!carousel.matches(':hover')) {
+                    nextSlide();
+                }
+            }, 5000);
+        }
+    </script>
 </body>
 
 </html>
